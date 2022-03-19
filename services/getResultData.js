@@ -1,7 +1,7 @@
 module.exports = function getResultData(event, agegroup) {
     let noresults = {
         eventDefinition:
-          { eventNumber: '123' , name: 'RestData' },
+          { eventNumber: event + '  ' + agegroup , name: 'RestData' },
         swimmerResults: [
           {
             clubId: '',
