@@ -4,18 +4,12 @@ const parser = new xml2js.Parser({ attrkey: "ATTR" });
 const jmespath = require('jmespath');
 
 var PropertyReader = require('properties-reader')
-
-// todo check env exists
-
 require('dotenv').config();
 
 var event_debug = process.env.MQTT_EVENT_DEBUG === 'true' ? true : false;
 
-var propertyfile = __dirname + "/../" + process.env.PROPERTY_FILE;
+var propertyfile = __dirname + "/../resources/" + process.env.PROPERTY_FILE;
 var properties = PropertyReader(propertyfile)
-
-var MqttMessageSender = require('../mqtt/mqtt_message_sender')
-var mqttMessageSender = new MqttMessageSender()
 
 var event_all = null
 var event_sessions = null;
@@ -42,11 +36,12 @@ class swimevent {
 
     constructor(filename) {
         this.filename = filename
+        this.success_load = false;
         try {
             this.xml_string = fs.readFileSync(filename, "utf8");
             this.readFile()
+            this.success_load = true;
         } catch (Exception) {
-            mqttMessageSender.sendMessage("lenex failure load <swim_event initial> " + this.filename)
             console.log(Exception)
         }
         console.log("<swim_event> Event type " + event_type)
@@ -60,7 +55,6 @@ class swimevent {
             this.xml_string = data;
             this.readFile();
         } catch (Exception) {
-            mqttMessageSender.sendMessage("<swim_event> <updateFile> lenex failure load " + this.filename)
             console.log(Exception)
         }
         // update file name
@@ -96,13 +90,14 @@ class swimevent {
 
 
     getCompetitionName() {
-        try {
-            var shortname = "{ \"competition\": \"" + event_all.LENEX.MEETS[0].MEET[0].ATTR.name + "\"}"
-            return JSON.parse(shortname);
-        } catch (Exception) {
-            mqttMessageSender.sendMessage("<swim_event> lenex failure load getCompetitionName")
-            console.log(Exception)
-            return null;
+        if (this.success_load) {
+            try {
+                var shortname = "{ \"competition\": \"" + event_all.LENEX.MEETS[0].MEET[0].ATTR.name + "\"}"
+                return JSON.parse(shortname);
+            } catch (Exception) {
+                console.log(Exception)
+                return null;
+            }
         }
     }
 
