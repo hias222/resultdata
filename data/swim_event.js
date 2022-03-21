@@ -48,22 +48,26 @@ class swimevent {
     }
 
     async updateFile(filename) {
-        this.filename = filename
-        try {
-            const data = fs.readFileSync(filename, 'utf8')
-            console.log('<swim_event> ' + filename + ' read it ')
-            this.xml_string = data;
-            this.readFile();
-        } catch (Exception) {
-            console.log(Exception)
-        }
-        // update file name
-        var lenex_file = properties.get("main.lenex_startlist")
-        console.log("<swim_event> property old file " + lenex_file)
-        properties.set("main.lenex_startlist", filename);
-        properties.save(propertyfile)
-        lenex_file = properties.get("main.lenex_startlist")
-        console.log("<swim_event> property new file " + lenex_file)
+        return new Promise((resolve, reject) => {
+            this.filename = __dirname + '/../resources/' + filename
+            try {
+                const data = fs.readFileSync(this.filename, 'utf8')
+                console.log('<swim_event> read ' + filename)
+                this.xml_string = data;
+                this.readFile();
+            } catch (Exception) {
+                console.log(Exception)
+                reject(Exception)
+            }
+            // update file name
+            var lenex_file = properties.get("main.lenex_results")
+            console.log("<swim_event> property old file " + lenex_file)
+            properties.set("main.lenex_results", filename);
+            properties.save(propertyfile)
+            lenex_file = properties.get("main.lenex_results")
+            console.log("<swim_event> property new file " + lenex_file)
+            resolve('success load')
+        })
     }
 
     readFile() {
@@ -71,19 +75,16 @@ class swimevent {
         try {
             parser.parseString(this.xml_string, function (error, result) {
                 if (error === null) {
-                    mqttMessageSender.sendMessage("lenex success upload new lenex file")
                     event_all = result;
                     event_swimmer = jmespath.search(result.LENEX.MEETS[0].MEET[0], "CLUBS[].CLUB[].ATHLETES[].ATHLETE[]")
                     event_clubs = result.LENEX.MEETS[0].MEET[0].CLUBS[0].CLUB
                     event_heatid = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]");
                     event_sessions = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]")
                 } else {
-                    mqttMessageSender.sendMessage("<swim_event> lenex error " + error)
                     console.log(error);
                 }
             });
         } catch (Exception) {
-            mqttMessageSender.sendMessage("<swim_event> lenex failure load  " + this.filename)
             console.log(Exception)
         }
     }

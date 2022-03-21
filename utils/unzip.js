@@ -5,12 +5,17 @@ var unzipper = require('unzipper')
 
 function unzipFile(fileName, outputPath) {
     return new Promise((resolve, reject) => {
-        let createdFile = fileName
+
+        
+        var destfilename = fileName.split('.').slice(0, -1).join('.') + ".lef"
+        var fullFileName = __dirname + '/../resources/' + fileName
+
+        let createdFile = fullFileName
         let stream = fs.createReadStream(createdFile)
             .pipe(unzipper.Extract({ path: outputPath }));
 
         stream.on('finish', () => {
-            resolve(outputPath);
+            resolve(destfilename);
         });
 
         stream.on('error', () => {
@@ -23,21 +28,23 @@ function unzipFile(fileName, outputPath) {
 var unzip = async function (fileName) {
     return new Promise((resolve, reject) => {
 
-        //var lenexfile = __dirname + '/../uploads/' + filename;
-
-        //var lenexfile = __dirname + '/../' + process.env.LENEX_LXF_FILE_NAME;
-        var lenexfile =fileName
-        var destfilename = __dirname + '/../' + process.env.LENEX_LEF_FILE_NAME;
+        var lenexfile = __dirname + '/../resources/' + fileName
         var destlenexpath = __dirname + '/../resources'
-
-        console.log("<incoming> check " + lenexfile)
-        console.log("<incoming> dest " + destfilename)
-
+        var newFilename = ''
 
         fs.promises.access(lenexfile, fs.F_OK)
-            .then(() => unzipFile(lenexfile, destlenexpath))
-            .then((data) => {
-                return resolve(data)
+            .then(() => {
+                console.log('<unzip.js> File exists ' + lenexfile)
+                return unzipFile(fileName, destlenexpath)
+            })
+            .then((newFile) => {
+                console.log('<unzip.js> extracted file name ' + newFile)
+                newFilename = newFile
+                return fs.promises.access(__dirname + '/../resources/' + newFile, fs.F_OK)
+            })
+            .then(() => {
+                console.log('<unzip.js> success ' + newFilename)
+                return resolve(newFilename)
             })
             .catch((err) => {
                 return reject(err)

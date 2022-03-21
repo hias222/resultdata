@@ -6,9 +6,9 @@ module.exports = function configuration(req, res) {
     //console.log(req);
     var properties = PropertyReader(propertyfile)
     var event_type = properties.get("main.event_type")
-    var lenex_startlist = properties.get("main.lenex_startlist")
+    var lenex_results = properties.get("main.lenex_results")
 
-    var stringJson = "{ \"event_type\": \"" + event_type + "\", \"lenex_startlist\": \"" + lenex_startlist + "\"}"
+    var stringJson = "{ \"event_type\": \"" + event_type + "\", \"lenex_results\": \"" + lenex_results + "\"}"
 
     res.send(JSON.parse(stringJson));
 }
