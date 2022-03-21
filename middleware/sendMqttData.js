@@ -1,4 +1,4 @@
-var mqtt_handler = require('../mqtt/mqtt_handler');
+//var mqtt_handler = require('../mqtt/mqtt_handler');
 
 //var mqttInternalClient = new mqtt_handler();
 //mqttInternalClient.connect();
