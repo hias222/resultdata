@@ -37,9 +37,7 @@ module.exports = function getLenexData(request, response, next) {
           console.log('<mid:getLenexData:update> error ' + lenexfile);
           console.log(error)
         });
-
     }
-
   }
 
   if (lenexMode === 'query') {
@@ -47,10 +45,11 @@ module.exports = function getLenexData(request, response, next) {
     var event = request.query.event !== undefined ? request.query.event : 0
     var agegroup = request.query.agegroup !== undefined ? request.query.agegroup : 0
 
-    var stringJson = getResultData(event, agegroup)
-    response.body = stringJson
+    console.log('<mid:getLenexData:query> event ' + event + ' agegroup ' + agegroup);
 
-    console.log('<mid:getLenexData:query> Message to do');
+    var stringJson = getResultData(myEvent,event, agegroup)
+    response.body = stringJson
+    
   }
 
   next();

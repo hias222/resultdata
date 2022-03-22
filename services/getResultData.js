@@ -1,28 +1,37 @@
-module.exports = function getResultData(event, agegroup) {
-    let noresults = {
-        eventDefinition:
-          { eventNumber: event + '  ' + agegroup , name: 'RestData' },
-        swimmerResults: [
-          {
-            clubId: '',
-            clubName: '',
-            swimmerName: 'Unknown',
-            endTime: '',
-            place: '1'
-          },
-          {
-            clubId: '',
-            clubName: '',
-            swimmerName: 'Unknown',
-            endTime: '',
-            place: '2'
-          }
-        ]
-      }
+let noresults = {
+  eventDefinition:
+    { eventNumber: '', name: '' },
+  swimmerResults: [
+    {
+      clubId: '',
+      clubName: '',
+      swimmerName: 'Unknown',
+      endTime: '',
+      place: '1'
+    },
+    {
+      clubId: '',
+      clubName: '',
+      swimmerName: 'Unknown',
+      endTime: '',
+      place: '2'
+    }
+  ]
+}
 
-    var stringJson = noresults
-    // var stringJson = JSON.parse(" [ { \"event\": \"99\" } ]")
+module.exports = function getResultData(myEvent, event, agegroup) {
 
-    return stringJson;
+  if (event === '0' || event === undefined || event === '') {
+    var competitionName = myEvent.getCompetitionName();
+    noresults.eventDefinition.name = 'Choose Number'
+    noresults.eventDefinition.competitionName = competitionName.competition
+    noresults.eventDefinition.eventNumber = event
+    return noresults
+  } else {
+    var eventData = myEvent.getEventData(event, agegroup);
+    console.log(eventData)
+    results = { ...noresults, eventDefinition: { ...eventData } }
+    return results;
+  }
 
 }
