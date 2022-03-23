@@ -43,11 +43,9 @@ module.exports = function getLenexData(request, response, next) {
 
   if (lenexMode === 'agegroups') {
     var event = request.query.event !== undefined ? request.query.event : 0
-    console.log('<mid:getLenexData:query> event ' + event + ' agegroup ');
-
+    console.log('<mid:getLenexData:agegroups> event ' + event );
     var stringJson = ageGroups(myEvent,event)
     response.body = stringJson
-
   }
 
   if (lenexMode === 'query') {

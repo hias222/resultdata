@@ -40,15 +40,20 @@ module.exports.ageGroups = function getAgeGroups(myEvent, event) {
 
   const ageGroupsValues = [
     {
-        value: '1',
-        label: '0-0',
+      value: '0',
+      label: '0-0',
     }
-];
+  ];
 
-  if (event === '0' || event === undefined || event === '') {    
+  if (event === '0' || event === undefined || event === '') {
     return ageGroupsValues
   } else {
     var eventData = myEvent.getAgeGroupIDs(event);
+    eventData.unshift({
+      "value": "0",
+      "label": "choose"
+    });
+
     return eventData;
   }
 

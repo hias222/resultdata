@@ -129,7 +129,6 @@ class swimevent {
         } catch (err) {
             console.log("<swim_events> getAgeGroupID crash " + eventnumber + " mode " + event_type)
             console.log("<swim_events> nothing found !!!")
-            //console.log(err)
             internalheadID = 0;
             return new Object();
         }
