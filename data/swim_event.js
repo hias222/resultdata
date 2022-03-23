@@ -81,13 +81,12 @@ class swimevent {
                     event_heatid = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]");
                     event_sessions = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]")
 
-
                     //event_results = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[].AGEGROUPS[].AGEGROUP[]");
 
                     var lenex_file = properties.get("main.lenex_results")
                     var debug_filename = __dirname + '/../resources/' + lenex_file + '.json'
                     console.log(debug_filename)
-                    fs.writeFile(debug_filename, JSON.stringify(event_sessions), err => {
+                    fs.writeFile(debug_filename, JSON.stringify(event_swimmer), err => {
                         if (err) {
                             console.error(err)
                             return
@@ -123,11 +122,56 @@ class swimevent {
         try {
             var searchstring = "[?ATTR.number == '" + eventnumber + "'].AGEGROUPS[].AGEGROUP[]"
             var tmp = jmespath.search(event_sessions, searchstring);
-            var attributsearch = "[].{value: ATTR.agegroupid, label: join('-', [ATTR.agemax, ATTR.agemin])}"
+            var attributsearch = "[].{value: ATTR.agegroupid, label: join('-', [ATTR.agemin, ATTR.agemax])}"
             var searcharray = jmespath.search(tmp, attributsearch);
             return searcharray
         } catch (err) {
             console.log("<swim_events> getAgeGroupID crash " + eventnumber + " mode " + event_type)
+            console.log("<swim_events> nothing found !!!")
+            internalheadID = 0;
+            return new Object();
+        }
+    }
+
+    getResults(eventnumber, agegroup) {
+
+        try {
+            var searchstring = "[?ATTR.number == '" + eventnumber + "'].AGEGROUPS[].AGEGROUP[]"
+            var tmp = jmespath.search(event_sessions, searchstring);
+            var attributsearch = "[?ATTR.agegroupid == '" + agegroup + "'].RANKINGS[].RANKING[].{order: ATTR.order, place: ATTR.place , resultid: ATTR.resultid}"
+            var searcharray = jmespath.search(tmp, attributsearch);
+            return searcharray
+        } catch (err) {
+            console.log("<swim_events> getAgeGroupID crash " + eventnumber + " mode " + event_type)
+            console.log("<swim_events> nothing found !!!")
+            internalheadID = 0;
+            return new Object();
+        }
+    }
+
+    getResultID(resultid) {
+
+        try {
+            var searchstring = "[?RESULTS[?RESULT[?ATTR.resultid == '" + resultid + "']]]"
+            var tmp = jmespath.search(event_swimmer, searchstring);
+
+            var resultattributsearch = "[].RESULTS[].RESULT[?ATTR.resultid == '" + resultid + "']"
+            var resultarray = jmespath.search(tmp, resultattributsearch);
+
+            var resultattributsearch2 = "[].{points: ATTR.points, swimtime: ATTR.swimtime }"
+            var searcharray = jmespath.search(resultarray, resultattributsearch2);
+
+            var resultswimmersearch = "[].{firstname: ATTR.firstname,lastname: ATTR.lastname, birthdate: ATTR.birthdate, nation: ATTR.nation, athleteid: ATTR.athleteid }"
+            var swimmerarray = jmespath.search(tmp, resultswimmersearch);
+
+            var club = this.getSwimmerClub(swimmerarray[0].athleteid)
+
+            var alltogether = { ...swimmerarray[0], ...searcharray[0], ...club[0] }
+
+            return alltogether;
+
+        } catch (err) {
+            console.log("<swim_events> getAgeGroupID crash " + resultid + " mode " + event_type)
             console.log("<swim_events> nothing found !!!")
             internalheadID = 0;
             return new Object();
@@ -315,17 +359,35 @@ class swimevent {
         return event_type;
     }
 
-    getEventData(event, agegroup) {
+    getResultData(event, agegroup) {
+
+        console.log('<swim_event:getEventData> Event: ' + event + ' Agegroup: ' + agegroup)
 
         var eventName = this.getEventName(event)
         var competion = this.getCompetitionName()
+        var results = this.getResults(event, agegroup)
+        //console.log(results)
+
+        var swimmerResults = []
+
+        results.map(result => {
+            if (result.place !== '-1') {
+                var resultSwimmer = this.getResultID(result.resultid)
+                var resultplace = { ...result, ...resultSwimmer }
+                swimmerResults.push(resultplace)
+            }
+        })
+
         var competitionName = competion.competition !== undefined ? competion.competition : ''
         var style = eventName.distance + 'm ' + eventName.swimstyle + ' ' + eventName.gender + ' (' + event_type + ') '
 
         let eventData = {
-            name: style,
-            eventNumber: event,
-            competition: competitionName
+            eventDefinition: {
+                name: style,
+                eventNumber: event,
+                competition: competitionName
+            },
+            swimmerResults: swimmerResults
         }
 
         return eventData

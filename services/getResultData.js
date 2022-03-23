@@ -21,6 +21,8 @@ let noresults = {
 
 module.exports.results = function getResultData(myEvent, event, agegroup) {
 
+  console.log('<getResultData:results> Event: ' + event + ' Agegroup: ' + agegroup )
+
   if (event === '0' || event === undefined || event === '') {
     var competitionName = myEvent.getCompetitionName();
     noresults.eventDefinition.name = 'Choose Number'
@@ -28,10 +30,9 @@ module.exports.results = function getResultData(myEvent, event, agegroup) {
     noresults.eventDefinition.eventNumber = event
     return noresults
   } else {
-    var eventData = myEvent.getEventData(event, agegroup);
-    console.log(eventData)
-    results = { ...noresults, eventDefinition: { ...eventData } }
-    return results;
+    var eventData = myEvent.getResultData(event, agegroup);
+    console.log('<getResultData:results> Event: ' + event + ' Agegroup: ' + agegroup )
+    return eventData;
   }
 
 }
