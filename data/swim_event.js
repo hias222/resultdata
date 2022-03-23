@@ -82,7 +82,7 @@ class swimevent {
                     event_sessions = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]")
 
                     //event_results = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[].AGEGROUPS[].AGEGROUP[]");
-
+/*
                     var lenex_file = properties.get("main.lenex_results")
                     var debug_filename = __dirname + '/../resources/' + lenex_file + '.json'
                     console.log(debug_filename)
@@ -93,7 +93,7 @@ class swimevent {
                         }
                         //file written successfully
                     })
-
+*/
 
                 } else {
                     console.log(error);
@@ -379,6 +379,7 @@ class swimevent {
         })
 
         var competitionName = competion.competition !== undefined ? competion.competition : ''
+        console.log(eventName)
         var style = eventName.distance + 'm ' + eventName.swimstyle + ' ' + eventName.gender + ' (' + event_type + ') '
 
         let eventData = {
