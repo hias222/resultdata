@@ -19,7 +19,7 @@ let noresults = {
   ]
 }
 
-module.exports = function getResultData(myEvent, event, agegroup) {
+module.exports.results = function getResultData(myEvent, event, agegroup) {
 
   if (event === '0' || event === undefined || event === '') {
     var competitionName = myEvent.getCompetitionName();
@@ -32,6 +32,24 @@ module.exports = function getResultData(myEvent, event, agegroup) {
     console.log(eventData)
     results = { ...noresults, eventDefinition: { ...eventData } }
     return results;
+  }
+
+}
+
+module.exports.ageGroups = function getAgeGroups(myEvent, event) {
+
+  const ageGroupsValues = [
+    {
+        value: '1',
+        label: '0-0',
+    }
+];
+
+  if (event === '0' || event === undefined || event === '') {    
+    return ageGroupsValues
+  } else {
+    var eventData = myEvent.getAgeGroupIDs(event);
+    return eventData;
   }
 
 }

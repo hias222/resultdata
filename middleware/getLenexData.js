@@ -1,4 +1,4 @@
-const getResultData = require("../services/getResultData");
+const {results,ageGroups} = require("../services/getResultData");
 var swimEvent = require('../data/swim_event')
 
 var unzip = require('../utils/unzip')
@@ -18,6 +18,7 @@ console.log(myEvent.getCompetitionName());
 module.exports = function getLenexData(request, response, next) {
 
   var lenexMode = request.query.mode !== undefined ? request.query.mode : 'query'
+  console.log('mode ' + lenexMode)
 
   if (lenexMode === 'update') {
 
@@ -40,6 +41,15 @@ module.exports = function getLenexData(request, response, next) {
     }
   }
 
+  if (lenexMode === 'agegroups') {
+    var event = request.query.event !== undefined ? request.query.event : 0
+    console.log('<mid:getLenexData:query> event ' + event + ' agegroup ');
+
+    var stringJson = ageGroups(myEvent,event)
+    response.body = stringJson
+
+  }
+
   if (lenexMode === 'query') {
 
     var event = request.query.event !== undefined ? request.query.event : 0
@@ -47,7 +57,7 @@ module.exports = function getLenexData(request, response, next) {
 
     console.log('<mid:getLenexData:query> event ' + event + ' agegroup ' + agegroup);
 
-    var stringJson = getResultData(myEvent,event, agegroup)
+    var stringJson = results(myEvent,event)
     response.body = stringJson
     
   }

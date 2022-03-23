@@ -81,7 +81,7 @@ class swimevent {
                     event_heatid = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]");
                     event_sessions = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]")
 
-                    
+
                     //event_results = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[].AGEGROUPS[].AGEGROUP[]");
 
                     var lenex_file = properties.get("main.lenex_results")
@@ -89,12 +89,12 @@ class swimevent {
                     console.log(debug_filename)
                     fs.writeFile(debug_filename, JSON.stringify(event_sessions), err => {
                         if (err) {
-                          console.error(err)
-                          return
+                            console.error(err)
+                            return
                         }
                         //file written successfully
-                      })
-                      
+                    })
+
 
                 } else {
                     console.log(error);
@@ -118,16 +118,14 @@ class swimevent {
         }
     }
 
-    getAgeGroupID (eventnumber) {
+    getAgeGroupIDs(eventnumber) {
 
         try {
-            var searchstring = "[?ATTR.number == '" + eventnumber + "']"
-            //var searchstring = "[?ATTR.eventid == '1059'].AGEGROUPS[*].AGEGROUP[*]"
+            var searchstring = "[?ATTR.number == '" + eventnumber + "'].AGEGROUPS[].AGEGROUP[]"
             var tmp = jmespath.search(event_sessions, searchstring);
-            var attributsearch = "[].{event: ATTR.number, gender: ATTR.gender, eventid: ATTR.eventid, age: AGEGROUPS[].AGEGROUP[].ATTR.agegroupid }"
+            var attributsearch = "[].{value: ATTR.agegroupid, label: join('-', [ATTR.agemax, ATTR.agemin])}"
             var searcharray = jmespath.search(tmp, attributsearch);
-            console.log('-------------')
-            console.log(searcharray)
+            return searcharray
         } catch (err) {
             console.log("<swim_events> getAgeGroupID crash " + eventnumber + " mode " + event_type)
             console.log("<swim_events> nothing found !!!")
@@ -135,7 +133,6 @@ class swimevent {
             internalheadID = 0;
             return new Object();
         }
-        return null
     }
 
     getInternalHeatId(eventnumber, heatnumber) {
@@ -321,17 +318,15 @@ class swimevent {
 
     getEventData(event, agegroup) {
 
-        this.getAgeGroupID(event)
-       
         var eventName = this.getEventName(event)
         var competion = this.getCompetitionName()
-
+        var competitionName = competion.competition !== undefined ? competion.competition : ''
         var style = eventName.distance + 'm ' + eventName.swimstyle + ' ' + eventName.gender + ' (' + event_type + ') '
 
         let eventData = {
-                name: style,
-                eventNumber: event,
-                competition: competion.competition
+            name: style,
+            eventNumber: event,
+            competition: competitionName
         }
 
         return eventData
