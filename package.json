@@ -23,6 +23,7 @@
     "express": "^4.17.3",
     "formidable": "^2.0.1",
     "jmespath": "^0.16.0",
+    "mqtt": "^4.3.7",
     "node-fetch": "^3.2.3",
     "properties-reader": "^2.2.0",
     "unzipper": "^0.10.11",
