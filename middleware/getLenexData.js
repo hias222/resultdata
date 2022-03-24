@@ -61,11 +61,13 @@ module.exports = function getLenexData(request, response, next) {
 
   if (lenexMode === 'show') {
     console.log('<mid:getLenexData:show> event ' + event + ' agegroup ' + agegroup);
+    var typeAttribute = {'type': 'result'}
     var stringJson = results(myEvent, event, agegroup)
+    var reesultMessage = {...typeAttribute, ...stringJson}
     mqttInternalClient.getStatus()    
       .then(() => {
         console.log('<mid:getenexData:show> MQTT connected')
-        return mqttInternalClient.sendRawMessage(JSON.stringify(stringJson))
+        return mqttInternalClient.sendRawMessage(JSON.stringify(reesultMessage))
       })
       .then(() => console.log('<mid:getenexData:show> send'))
       .catch(() => console.log('<mid:getenexData:show> error connect mqtt'));
