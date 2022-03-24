@@ -379,7 +379,7 @@ class swimevent {
         })
 
         var competitionName = competion.competition !== undefined ? competion.competition : ''
-        console.log(eventName)
+        //console.log(eventName)
         var style = eventName.distance + 'm ' + eventName.swimstyle + ' ' + eventName.gender + ' (' + event_type + ') '
 
         let eventData = {

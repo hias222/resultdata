@@ -5,12 +5,9 @@ var router = express.Router();
 var upload = require('./api-routes/upload')
 var health = require('./api-routes/health');
 
-
 var loggerMiddleware = require('./middleware/loggerMiddleware')
 var getLenexData = require('./middleware/getLenexData')
-var getMqttData = require('./middleware/sendMqttData')
 
-const showevent = require("./api-routes/showevent");
 const getevent = require("./api-routes/getevent");
 
 require('dotenv').config();
@@ -25,7 +22,6 @@ app.options('*', cors());
 router.get('/', health);
 router.get('/getevent', getLenexData, getevent)
 router.post("/upload", upload)
-router.post("/showevent", getMqttData, showevent)
 
 app.use('/resultdata', router);
 

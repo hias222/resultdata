@@ -1,4 +1,4 @@
 module.exports = function loggerMiddleware(request, response, next) {
-    console.log('/' + request.method + ' ' + request.baseUrl + request.path);
+    console.log('<loggerMiddleware> /' + request.method + ' ' + request.baseUrl + request.path);
     next();
   }

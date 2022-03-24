@@ -25,7 +25,7 @@ class MqttHandler {
   constructor() {
     //super(onMessageChange);
     this.mqttClient = null;
-    this.rawtopic = 'rawdata'
+    this.rawtopic = 'mainchannel'
     this.host = mqtt_local_url;
     this.connectToMqtt = this.connectToMqtt.bind(this)
     //autoBind(this);
@@ -37,46 +37,55 @@ class MqttHandler {
   }
 
   connect() {
-    // Connect mqtt with credentials (in case of needed, otherwise we can omit 2nd param)
-    //this.mqttClient = mqtt.connect(this.host, { username: this.username, password: this.password });
+    return new Promise((resolve, reject) => {
+      // Connect mqtt with credentials (in case of needed, otherwise we can omit 2nd param)
+      //this.mqttClient = mqtt.connect(this.host, { username: this.username, password: this.password });
 
-    this.connectToMqtt()
-    //this.mqttClient = mqtt.connect(this.host, settings);
+      this.connectToMqtt()
+      //this.mqttClient = mqtt.connect(this.host, settings);
 
-    // Mqtt error calback
-    this.mqttClient.on('error', (err) => {
-      console.log(err);
-      ConnectedRaw = false;
-      this.mqttClient.end();
-    });
+      // Mqtt error calback
+      this.mqttClient.on('error', (err) => {
+        console.log(err);
+        ConnectedRaw = false;
+        this.mqttClient.end();
+        reject()
+      });
 
-    // Connection callback
-    this.mqttClient.on('connect', () => {
-      if (debug) console.log(`<mqtt_handle> raw client connected to ` + mqtt_local_url);
-      ConnectedRaw = true;
-    });
+      // Connection callback
+      this.mqttClient.on('connect', () => {
+        if (debug) console.log(`<mqtt_handle> raw client connected to ` + mqtt_local_url);
+        ConnectedRaw = true;
+        resolve()
+      });
 
-    // mqtt subscriptions
-    this.mqttClient.subscribe(this.rawtopic, { qos: 0 });
+      // mqtt subscriptions
+      //this.mqttClient.subscribe(this.rawtopic, { qos: 0 });
 
-    // When a message arrives, console.log it
-    this.mqttClient.on('message', function (topic, message) {
-      if (debug) console.log("<mqtt_handle> datamapping incoming " + message.toString());
-      //SendMessage = messageMapper.mapMessage(message)
-      lastMessage = message;
-    });
+      // When a message arrives, console.log it
+      /*
+      this.mqttClient.on('message', function (topic, message) {
+        if (debug) console.log("<mqtt_handle> datamapping incoming " + message.toString());
+        //SendMessage = messageMapper.mapMessage(message)
+        lastMessage = message;
+      });
+      */
 
-    this.mqttClient.on('close', (err) => {
-      console.log(`<mqtt_handle> raw client disconnected ` + this.host);
-      console.error(err)
-      //SendMessage = messageMapper.mapMessage("connection abort")
-      ConnectedRaw = false;
+      this.mqttClient.on('close', (err) => {
+        console.log(`<mqtt_handle> raw client disconnected ` + this.host);
+        console.error(err)
+        //SendMessage = messageMapper.mapMessage("connection abort")
+        ConnectedRaw = false;
+      });
     });
   }
 
   // Sends a mqtt message to topic: mytopic
   sendRawMessage(message) {
-    this.mqttClient.publish(this.rawtopic, message);
+    return new Promise((resolve, reject) => {
+      this.mqttClient.publish(this.rawtopic, message);
+      resolve()
+    });
   }
 
   getLastMessage() {
@@ -88,7 +97,15 @@ class MqttHandler {
   }
 
   getStatus() {
-    return ConnectedRaw;
+    return new Promise((resolve, reject) => {
+      if (ConnectedRaw) {
+        resolve()
+      } else {
+        this.connect()
+          .then(() => resolve())
+          .catch(() => reject());
+      }
+    });
   }
 
   getSendStatus() {
