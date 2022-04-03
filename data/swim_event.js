@@ -394,6 +394,22 @@ class swimevent {
         return eventData
 
     }
+
+    getDownloadList(eventnumber) {
+
+        // event_clubs
+        try {
+            var searchstring = "[?ATTR.name != null]"
+            var tmp = jmespath.search(event_clubs, searchstring);
+            var attributsearch = "[].{code: ATTR.code, name: ATTR.name, nation: ATTR.nation, region: ATTR.region}"
+            var searcharray = jmespath.search(tmp, attributsearch);
+            return searcharray
+        } catch (err) {
+            console.log("<swim_events> nothing found getDownloadList !!!")
+            return new Object();
+        }
+
+    }
 }
 
 module.exports = swimevent;
