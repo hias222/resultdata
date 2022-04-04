@@ -378,9 +378,9 @@ class swimevent {
             }
         })
 
-        var searchstring = "sort_by([*],&place)"
+        var searchstring = "sort_by([*],&place.to_number(@))"
         var orderbyplace = jmespath.search(swimmerResults, searchstring);
-        
+
         var competitionName = competion.competition !== undefined ? competion.competition : ''
         //console.log(eventName)
         var style = eventName.distance + 'm ' + eventName.swimstyle + ' ' + eventName.gender + ' (' + event_type + ') '
