@@ -406,7 +406,9 @@ class swimevent {
             var tmp = jmespath.search(event_clubs, searchstring);
             var attributsearch = "[].{code: ATTR.code, name: ATTR.name, nation: ATTR.nation, region: ATTR.region}"
             var searcharray = jmespath.search(tmp, attributsearch);
-            return searcharray
+            var searchstring2 = "sort_by([*],&name)"
+            var searcharray2 = jmespath.search(searcharray, searchstring2);
+            return searcharray2
         } catch (err) {
             console.log("<swim_events> nothing found getDownloadList !!!")
             return new Object();
