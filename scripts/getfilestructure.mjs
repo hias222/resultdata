@@ -19,7 +19,7 @@ function add_entries_data(data, entries_tree) {
             var tmp = jmespath.search(entries_tree, searchstring);
             if (tmp === 1) {
                 console.log('Entry ' + result.name + ' -> entries/' + entriesname )
-                var newFile = { 'entriesfile': 'entries/' + entriesname }
+                var newFile = { 'entriesfile': '../entries/' + entriesname }
                 var newclub = { ...result, ...newFile }
                 club_data.push(newclub)
             } else {
@@ -41,7 +41,7 @@ function add_certs_data(data, certs_tree) {
             var tmp = jmespath.search(certs_tree, searchstring);
             if (tmp === 1) {
                 console.log('Certs ' + result.name + ' -> certificates/' + certsname )
-                var newFile = { 'certsfile': 'certificates/' + certsname }
+                var newFile = { 'certsfile': '../certificates/' + certsname }
                 var newclub = { ...result, ...newFile }
                 club_data.push(newclub)
             } else {
