@@ -60,8 +60,12 @@ module.exports.ageGroups = function getAgeGroups(myEvent, event) {
 }
 
 module.exports.downloadList = function getDownloadlist(myEvent) {
-
   var eventData = myEvent.getDownloadList();
+  return eventData;
+}
+
+module.exports.combined = function getCombineddata(myEvent) {
+  var eventData = myEvent.getCombinedData();
   return eventData;
 }
 

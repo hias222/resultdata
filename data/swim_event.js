@@ -82,18 +82,18 @@ class swimevent {
                     event_sessions = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]")
 
                     //event_results = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[].AGEGROUPS[].AGEGROUP[]");
-/*
-                    var lenex_file = properties.get("main.lenex_results")
-                    var debug_filename = __dirname + '/../resources/' + lenex_file + '.json'
-                    console.log(debug_filename)
-                    fs.writeFile(debug_filename, JSON.stringify(event_swimmer), err => {
-                        if (err) {
-                            console.error(err)
-                            return
-                        }
-                        //file written successfully
-                    })
-*/
+                    /*
+                                        var lenex_file = properties.get("main.lenex_results")
+                                        var debug_filename = __dirname + '/../resources/' + lenex_file + '.json'
+                                        console.log(debug_filename)
+                                        fs.writeFile(debug_filename, JSON.stringify(event_swimmer), err => {
+                                            if (err) {
+                                                console.error(err)
+                                                return
+                                            }
+                                            //file written successfully
+                                        })
+                    */
 
                 } else {
                     console.log(error);
@@ -176,6 +176,20 @@ class swimevent {
             internalheadID = 0;
             return new Object();
         }
+    }
+
+    getResultDataList(resultids) {
+        var swimmerResults = []
+
+        resultids.map(result => {
+            if (result.place !== '-1') {
+                var resultSwimmer = this.getResultID(result.resultid)
+                var resultplace = { ...result, ...resultSwimmer }
+                swimmerResults.push(resultplace)
+            }
+        })
+
+        return swimmerResults
     }
 
     getInternalHeatId(eventnumber, heatnumber) {
@@ -368,6 +382,9 @@ class swimevent {
         var results = this.getResults(event, agegroup)
         //console.log(results)
 
+        var swimmerResults = this.getResultDataList(results)
+
+        /*
         var swimmerResults = []
 
         results.map(result => {
@@ -377,6 +394,7 @@ class swimevent {
                 swimmerResults.push(resultplace)
             }
         })
+        */
 
         var searchstring = "sort_by([*],&place.to_number(@))"
         var orderbyplace = jmespath.search(swimmerResults, searchstring);
@@ -411,6 +429,69 @@ class swimevent {
             return searcharray2
         } catch (err) {
             console.log("<swim_events> nothing found getDownloadList !!!")
+            return new Object();
+        }
+
+    }
+
+    addResultsToSwimerList(swimmerList, swimmerResults, event) {
+        //console.log(swimmerResults)
+
+        /*
+
+            var result = [...[request1, request2].reduce((m, a) => (a.forEach(o => m.has(o.ObjId) && Object.assign(m.get(o.ObjId), o) || m.set(o.ObjId, o)), m), new Map).values()];
+
+        */
+
+        swimmerResults.map(result => {
+            var swimmerdata = { 'athleteid': result.athleteid, 'data': [{ 'event': event, 'points': result.points }] }
+
+            var searchstring = "[?athleteid == '" + result.athleteid + "']"
+            var tmp = jmespath.search(swimmerList, searchstring);
+            if (tmp.length > 0) {
+                var newdata = { 'athleteid': tmp[0].athleteid, data: [...swimmerdata.data, ...tmp[0].data] }
+                var item = swimmerList.find(x => x.athleteid == tmp[0].athleteid);
+                if (item) {
+                    item.data = newdata.data;
+                }
+            } else {
+                swimmerList.push(swimmerdata)
+            }
+        })
+
+        return swimmerList;
+
+    }
+
+    getCombinedData() {
+        console.log('<swim_event:combined>')
+
+        // event_clubs
+        try {
+            let event = 3
+            let agegroup = 1065
+
+            var results = this.getResults(event, agegroup)
+            var swimmerResults = this.getResultDataList(results)
+
+            var swimmerList = [];
+
+            swimmerList = this.addResultsToSwimerList(swimmerList, swimmerResults, event);
+
+            event = 21
+            agegroup = 1103
+
+            results = this.getResults(event, agegroup)
+            swimmerResults = this.getResultDataList(results)
+
+            swimmerList = this.addResultsToSwimerList(swimmerList, swimmerResults, event);
+
+            var searchstring = "sort_by([*],&athleteid.to_number(@))"
+            var orderbyathleteid = jmespath.search(swimmerList, searchstring);
+
+            return orderbyathleteid
+        } catch (err) {
+            console.log("<swim_events> nothing found getCombinedData !!!")
             return new Object();
         }
 

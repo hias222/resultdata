@@ -1,4 +1,4 @@
-const { results, ageGroups, downloadList } = require("../services/getResultData");
+const { results, ageGroups, downloadList, combined } = require("../services/getResultData");
 
 var swimEvent = require('../data/swim_event')
 var mqtt_handler = require('../mqtt/mqtt_handler');
@@ -58,11 +58,16 @@ module.exports = function getLenexData(request, response, next) {
     response.body = stringJson
   }
 
+  if (lenexMode === 'combined') {
+    console.log('<mid:getLenexData:combined> event ');
+    var stringJson = combined(myEvent)
+    response.body = stringJson
+  }
+
   if (lenexMode === 'query') {
     console.log('<mid:getLenexData:query> event ' + event + ' agegroup ' + agegroup);
     var stringJson = results(myEvent, event, agegroup)
     response.body = stringJson
-
   }
 
   if (lenexMode === 'show') {
