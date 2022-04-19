@@ -1,19 +1,20 @@
 [
     {
-        "combinedid": 1,
+        "combinedid" : 1,
         "name": "Freistil",
-        "agemin": "11",
-        "agemax": "11",
+        "agemin": "10",
+        "agemax": "13",
         "events": [
             {
-                "number": "1",
-                "factor": "1"
+                "number": "3"
             },
             {
-                "number": "5"
+                "number": "21",
+                "agegroup": "1103"
             },
             {
-                "number": "13"
+                "number": "27",
+                "agegroup": "1115"
             }
         ]
     }

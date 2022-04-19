@@ -44,15 +44,17 @@ function getAgeGroupIdWithAge(event_sessions, event_number, agemin, agemax) {
     try {
         var searchstring = "[?ATTR.number == '" + event_number + "'].AGEGROUPS[].AGEGROUP[]"
         var tmp = jmespath.search(event_sessions, searchstring);
-        var searchstring2 = "[?ATTR.agemax >= '" + agemax + "']"
+        var searchstring2 = "[?ATTR.agemax.to_number(@) >= '" + +agemax + "'] || [?ATTR.agemax == '-1']"
         var tmp2 = jmespath.search(tmp, searchstring2);
-        var searchstring3 = "[?ATTR.agemin <= '" + agemin + "']"
+        var searchstring3 = "[?ATTR.agemin.to_number(@) <= '" + +agemin + "'] || [?ATTR.agemin == '-1']"
         var tmp3 = jmespath.search(tmp2, searchstring3);
         if (tmp3.length == 1) {
             console.log('<combined> found id ' + tmp3[0].ATTR.agegroupid + ' ' + event_number + ' from ' + agemin + ' to ' + agemax)
             return tmp3[0].ATTR.agegroupid
         } else {
-            console.log('<combined> error on find agegroup id')
+            console.log('<combined> error on find agegroup id ' + event_number + ' from ' + agemin + ' to ' + agemax)
+            console.log(tmp2)
+            console.log(tmp3)
             return undefined;
         }
     } catch (err) {
