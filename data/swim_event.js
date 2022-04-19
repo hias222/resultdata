@@ -19,6 +19,7 @@ var event_results = null;
 var event_clubs = null;
 
 var event_type = properties.get("main.event_type")
+var combined_definition = properties.get("main.combined_file")
 
 var internalheadID = "1";
 var actual_heat = "1";
@@ -39,8 +40,13 @@ class swimevent {
         this.success_load = false;
         try {
             this.xml_string = fs.readFileSync(filename, "utf8");
+
             this.readFile()
             this.success_load = true;
+
+            var combined_file = __dirname + '/../resources/' + combined_definition
+            this.combined_data = JSON.parse(fs.readFileSync(combined_file, "utf8"))
+
         } catch (Exception) {
             console.log(Exception)
         }
@@ -435,25 +441,16 @@ class swimevent {
     }
 
     addResultsToSwimerList(swimmerList, swimmerResults, event) {
-        //console.log(swimmerResults)
-
-        /*
-
-            var result = [...[request1, request2].reduce((m, a) => (a.forEach(o => m.has(o.ObjId) && Object.assign(m.get(o.ObjId), o) || m.set(o.ObjId, o)), m), new Map).values()];
-
-        */
 
         swimmerResults.map(result => {
-            var swimmerdata = { 'athleteid': result.athleteid, 'data': [{ 'event': event, 'points': result.points }] }
+            var swimmerdata = { 'athleteid': result.athleteid, 'combinedpoints': result.points, 'data': [{ 'event': event, 'points': result.points }] }
 
-            var searchstring = "[?athleteid == '" + result.athleteid + "']"
-            var tmp = jmespath.search(swimmerList, searchstring);
-            if (tmp.length > 0) {
-                var newdata = { 'athleteid': tmp[0].athleteid, data: [...swimmerdata.data, ...tmp[0].data] }
-                var item = swimmerList.find(x => x.athleteid == tmp[0].athleteid);
-                if (item) {
-                    item.data = newdata.data;
-                }
+            var item = swimmerList.find(x => x.athleteid == result.athleteid);
+            if (item) {
+                var points = +result.points + +item.combinedpoints
+                item.combinedpoints = points.toString();
+                var newdata = [...swimmerdata.data, ...item.data]
+                item.data = newdata;
             } else {
                 swimmerList.push(swimmerdata)
             }
@@ -468,25 +465,19 @@ class swimevent {
 
         // event_clubs
         try {
-            let event = 3
-            let agegroup = 1065
-
-            var results = this.getResults(event, agegroup)
-            var swimmerResults = this.getResultDataList(results)
-
             var swimmerList = [];
 
-            swimmerList = this.addResultsToSwimerList(swimmerList, swimmerResults, event);
+            var combined_data = this.combined_data.find(x => x.combinedid == 1);
+            if (combined_data) {
+                combined_data.events.map(event => {
+                    var results = this.getResults(event.number, event.agegroup)
+                    var swimmerResults = this.getResultDataList(results)
+                    swimmerList = this.addResultsToSwimerList(swimmerList, swimmerResults, event.number);
+                })
+            }
 
-            event = 21
-            agegroup = 1103
-
-            results = this.getResults(event, agegroup)
-            swimmerResults = this.getResultDataList(results)
-
-            swimmerList = this.addResultsToSwimerList(swimmerList, swimmerResults, event);
-
-            var searchstring = "sort_by([*],&athleteid.to_number(@))"
+            //var searchstring = "sort_by([*],&athleteid.to_number(@))"
+            var searchstring = "reverse(sort_by([*],&combinedpoints.to_number(@)))"
             var orderbyathleteid = jmespath.search(swimmerList, searchstring);
 
             return orderbyathleteid
