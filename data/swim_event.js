@@ -440,10 +440,18 @@ class swimevent {
 
     }
 
-    addResultsToSwimerList(swimmerList, swimmerResults, event) {
+    addResultsToSwimerList(swimmerList, swimmerResults, event, combined_name) {
 
         swimmerResults.map(result => {
-            var swimmerdata = { 'athleteid': result.athleteid, 'combinedpoints': result.points, 'data': [{ 'event': event, 'points': result.points }] }
+            var swimmerdata = {
+                'athleteid': result.athleteid,
+                'firstname': result.firstname,
+                'lastname': result.lastname,
+                'birthdate': result.birthdate,
+                'clubname': result.name,
+                'combined_name': combined_name,
+                'combinedpoints': result.points, 'data': [{ 'event': event, 'points': result.points, 'place': result.place, 'swimtime': result.swimtime }]
+            }
 
             var item = swimmerList.find(x => x.athleteid == result.athleteid);
             if (item) {
@@ -455,32 +463,35 @@ class swimevent {
                 swimmerList.push(swimmerdata)
             }
         })
-
         return swimmerList;
 
     }
 
+    addPlaceToCombinedList(swimmerList) {
+        var searchstring = "reverse(sort_by([*],&combinedpoints.to_number(@)))"
+        var orderpoints = jmespath.search(swimmerList, searchstring);
+        var endplace = 1
+        orderpoints.map(result => {
+            result.place = endplace.toString()
+            endplace++
+        })
+        return orderpoints
+    }
+
     getCombinedData() {
         console.log('<swim_event:combined>')
-
-        // event_clubs
         try {
             var swimmerList = [];
-
             var combined_data = this.combined_data.find(x => x.combinedid == 1);
             if (combined_data) {
                 combined_data.events.map(event => {
                     var results = this.getResults(event.number, event.agegroup)
                     var swimmerResults = this.getResultDataList(results)
-                    swimmerList = this.addResultsToSwimerList(swimmerList, swimmerResults, event.number);
+                    swimmerList = this.addResultsToSwimerList(swimmerList, swimmerResults, event.number, combined_data.name);
                 })
             }
 
-            //var searchstring = "sort_by([*],&athleteid.to_number(@))"
-            var searchstring = "reverse(sort_by([*],&combinedpoints.to_number(@)))"
-            var orderbyathleteid = jmespath.search(swimmerList, searchstring);
-
-            return orderbyathleteid
+            return this.addPlaceToCombinedList(swimmerList)
         } catch (err) {
             console.log("<swim_events> nothing found getCombinedData !!!")
             return new Object();
