@@ -3,6 +3,8 @@ const fs = require('fs');
 const parser = new xml2js.Parser({ attrkey: "ATTR" });
 const jmespath = require('jmespath');
 
+const { addResultsToSwimerList, addPlaceToCombinedList, getAgeGroupIdWithAge } = require('./combined')
+
 var PropertyReader = require('properties-reader')
 require('dotenv').config();
 
@@ -423,7 +425,6 @@ class swimevent {
     }
 
     getDownloadList(eventnumber) {
-
         // event_clubs
         try {
             var searchstring = "[?ATTR.name != null]"
@@ -440,63 +441,34 @@ class swimevent {
 
     }
 
-    addResultsToSwimerList(swimmerList, swimmerResults, event, combined_name) {
-
-        swimmerResults.map(result => {
-            var swimmerdata = {
-                'athleteid': result.athleteid,
-                'firstname': result.firstname,
-                'lastname': result.lastname,
-                'birthdate': result.birthdate,
-                'clubname': result.name,
-                'combined_name': combined_name,
-                'combinedpoints': result.points, 'data': [{ 'event': event, 'points': result.points, 'place': result.place, 'swimtime': result.swimtime }]
-            }
-
-            var item = swimmerList.find(x => x.athleteid == result.athleteid);
-            if (item) {
-                var points = +result.points + +item.combinedpoints
-                item.combinedpoints = points.toString();
-                var newdata = [...swimmerdata.data, ...item.data]
-                item.data = newdata;
-            } else {
-                swimmerList.push(swimmerdata)
-            }
-        })
-        return swimmerList;
-
-    }
-
-    addPlaceToCombinedList(swimmerList) {
-        var searchstring = "reverse(sort_by([*],&combinedpoints.to_number(@)))"
-        var orderpoints = jmespath.search(swimmerList, searchstring);
-        var endplace = 1
-        orderpoints.map(result => {
-            result.place = endplace.toString()
-            endplace++
-        })
-        return orderpoints
-    }
-
     getCombinedData() {
         console.log('<swim_event:combined>')
         try {
             var swimmerList = [];
+            var found_age = true;
             var combined_data = this.combined_data.find(x => x.combinedid == 1);
+            var error_data
+
             if (combined_data) {
                 combined_data.events.map(event => {
-                    var results = this.getResults(event.number, event.agegroup)
-                    var swimmerResults = this.getResultDataList(results)
-                    swimmerList = this.addResultsToSwimerList(swimmerList, swimmerResults, event.number, combined_data.name);
+                    var agegroupID = getAgeGroupIdWithAge(event_sessions, event.number, combined_data.agemin, combined_data.agemax)
+                    if (agegroupID !== undefined) {
+                        var results = this.getResults(event.number, agegroupID)
+                        var swimmerResults = this.getResultDataList(results)
+                        swimmerList = addResultsToSwimerList(swimmerList, swimmerResults, event, combined_data.name);
+                    } else {
+                        found_age = false
+                        error_data = event
+                    }
                 })
             }
-
-            return this.addPlaceToCombinedList(swimmerList)
+            if (found_age) return addPlaceToCombinedList(swimmerList)
+            return { ...error_data, ...{ "agemin": combined_data.agemin, "agemax": combined_data.agemax } }
         } catch (err) {
             console.log("<swim_events> nothing found getCombinedData !!!")
+            //console.log(err)
             return new Object();
         }
-
     }
 }
 
