@@ -129,7 +129,6 @@ function convertToResult(combindedData) {
             code: data.clubid
         }
         swimmerdata.push(result)
-        console.log(data.combinedpoints)
     })
 
     var swimmerResults = { swimmerResults: swimmerdata }
