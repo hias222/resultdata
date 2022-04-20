@@ -64,8 +64,13 @@ module.exports.downloadList = function getDownloadlist(myEvent) {
   return eventData;
 }
 
-module.exports.combined = function getCombineddata(myEvent) {
-  var eventData = myEvent.getCombinedData();
+module.exports.combined = function getCombineddata(myEvent, combinedid) {
+  var eventData = myEvent.getCombinedData(combinedid);
+  return eventData;
+}
+
+module.exports.combineddefinition = function getCombineddefinition(myEvent) {
+  var eventData = myEvent.getCombineddefinition();
   return eventData;
 }
 

@@ -1,4 +1,4 @@
-const { results, ageGroups, downloadList, combined } = require("../services/getResultData");
+const { results, ageGroups, downloadList, combined, combineddefinition } = require("../services/getResultData");
 
 var swimEvent = require('../data/swim_event')
 var mqtt_handler = require('../mqtt/mqtt_handler');
@@ -22,6 +22,7 @@ module.exports = function getLenexData(request, response, next) {
 
   var lenexMode = request.query.mode !== undefined ? request.query.mode : 'query'
   var event = request.query.event !== undefined ? request.query.event : 0
+  var combinedid = request.query.combinedid !== undefined ? request.query.combinedid : 1
   var agegroup = request.query.agegroup !== undefined ? request.query.agegroup : 0
   console.log('<getLenexData.js> mode ' + lenexMode)
 
@@ -59,8 +60,14 @@ module.exports = function getLenexData(request, response, next) {
   }
 
   if (lenexMode === 'combined') {
-    console.log('<mid:getLenexData:combined> event ');
-    var stringJson = combined(myEvent)
+    console.log('<mid:getLenexData:combined> id ' + combinedid);
+    var stringJson = combined(myEvent, combinedid)
+    response.body = stringJson
+  }
+
+  if (lenexMode === 'combineddefinition') {
+    console.log('<mid:getLenexData:combineddefinition> event ');
+    var stringJson = combineddefinition(myEvent)
     response.body = stringJson
   }
 
@@ -72,10 +79,10 @@ module.exports = function getLenexData(request, response, next) {
 
   if (lenexMode === 'show') {
     console.log('<mid:getLenexData:show> event ' + event + ' agegroup ' + agegroup);
-    var typeAttribute = {'type': 'result'}
+    var typeAttribute = { 'type': 'result' }
     var stringJson = results(myEvent, event, agegroup)
-    var reesultMessage = {...typeAttribute, ...stringJson}
-    mqttInternalClient.getStatus()    
+    var reesultMessage = { ...typeAttribute, ...stringJson }
+    mqttInternalClient.getStatus()
       .then(() => {
         console.log('<mid:getenexData:show> MQTT connected')
         return mqttInternalClient.sendRawMessage(JSON.stringify(reesultMessage))

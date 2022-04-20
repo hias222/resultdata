@@ -441,12 +441,18 @@ class swimevent {
 
     }
 
-    getCombinedData() {
-        console.log('<swim_event:combined>')
+    getCombineddefinition() {
+        console.log('<getCombineddefinition> ToDo')
+        var newDefinition = [{ value: 1, label: 'Freistil - MOCK' }]
+        return newDefinition;
+    }
+
+    getCombinedData(combinedid) {
+        console.log('<swim_event:combined> id ' +  combinedid)
         try {
             var swimmerList = [];
             var found_age = true;
-            var combined_data = this.combined_data.find(x => x.combinedid == 1);
+            var combined_data = this.combined_data.find(x => x.combinedid == +combinedid);
             var error_data
 
             if (combined_data) {
