@@ -1,9 +1,10 @@
 [
     {
         "combinedid" : 1,
-        "name": "Freistil",
+        "name": "Freistil W",
+        "title": "Freistil",
         "agemin": "10",
-        "agemax": "13",
+        "agemax": "11",
         "events": [
             {
                 "number": "3",
@@ -16,5 +17,25 @@
                 "number": "27"
             }
         ]
+    },
+    {
+        "combinedid" : 2,
+        "name": "Freistil M",
+        "title": "Freistil",
+        "agemin": "10",
+        "agemax": "11",
+        "events": [
+            {
+                "number": "4",
+                "factor": "3"
+            },
+            {
+                "number": "22"
+            },
+            {
+                "number": "28"
+            }
+        ]
     }
+
 ]

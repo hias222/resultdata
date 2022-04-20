@@ -3,7 +3,7 @@ const fs = require('fs');
 const parser = new xml2js.Parser({ attrkey: "ATTR" });
 const jmespath = require('jmespath');
 
-const { addResultsToSwimerList, addPlaceToCombinedList, getAgeGroupIdWithAge } = require('./combined')
+const { addResultsToSwimerList, addPlaceToCombinedList, getAgeGroupIdWithAge, getDefininitions } = require('./combined')
 
 var PropertyReader = require('properties-reader')
 require('dotenv').config();
@@ -443,11 +443,8 @@ class swimevent {
 
     getCombineddefinition() {
         console.log('<getCombineddefinition> ToDo')
-        var newDefinition = [
-            { value: 1, label: 'Freistil - MOCK' },
-            { value: 2, label: 'Brust - MOCK' }
-        ]
-        return newDefinition;
+        var definintions = getDefininitions(this.combined_data)
+        return definintions;
     }
 
     getCombinedData(combinedid) {
@@ -463,8 +460,9 @@ class swimevent {
                     var agegroupID = getAgeGroupIdWithAge(event_sessions, event.number, combined_data.agemin, combined_data.agemax)
                     if (agegroupID !== undefined) {
                         var results = this.getResults(event.number, agegroupID)
+                        var eventdetails = this.getEventName(event.number)
                         var swimmerResults = this.getResultDataList(results)
-                        swimmerList = addResultsToSwimerList(swimmerList, swimmerResults, event, combined_data.name);
+                        swimmerList = addResultsToSwimerList(swimmerList, swimmerResults, event, eventdetails, combined_data);
                     } else {
                         found_age = false
                         error_data = event
@@ -475,7 +473,7 @@ class swimevent {
             return { ...error_data, ...{ "agemin": combined_data.agemin, "agemax": combined_data.agemax } }
         } catch (err) {
             console.log("<swim_events> nothing found getCombinedData !!!")
-            //console.log(err)
+            console.log(err)
             return new Object();
         }
     }

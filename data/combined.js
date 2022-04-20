@@ -1,6 +1,12 @@
 const jmespath = require('jmespath');
 
-function addResultsToSwimerList(swimmerList, swimmerResults, event, combined_name) {
+var PropertyReader = require('properties-reader')
+require('dotenv').config();
+var propertyfile = __dirname + "/../resources/" + process.env.PROPERTY_FILE;
+var properties = PropertyReader(propertyfile)
+var combined_max_results = properties.get("main.combined_max_results") !== null ? properties.get("main.combined_max_results") : 999
+
+function addResultsToSwimerList(swimmerList, swimmerResults, event, eventdetails, combined_name) {
 
     swimmerResults.map(result => {
         var factor = event.factor !== undefined ? event.factor : 1
@@ -11,8 +17,19 @@ function addResultsToSwimerList(swimmerList, swimmerResults, event, combined_nam
             'lastname': result.lastname,
             'birthdate': result.birthdate,
             'clubname': result.name,
-            'combined_name': combined_name,
-            'combinedpoints': correctpoints, 'data': [{ 'event': event.number, 'points': correctpoints, 'place': result.place, 'swimtime': result.swimtime }]
+            'combined_name': combined_name.name,
+            'title': combined_name.title,
+            'nation': result.nation,
+            'clubid': result.code,
+            'combinedpoints': correctpoints, 'data': [{
+                'event': event.number,
+                'distance': eventdetails.distance,
+                'swimstyle': eventdetails.swimstyle,
+                'points': correctpoints,
+                'place': result.place,
+                'factor': factor,
+                'swimtime': result.swimtime
+            }]
         }
 
         var item = swimmerList.find(x => x.athleteid == result.athleteid);
@@ -36,7 +53,11 @@ function addPlaceToCombinedList(swimmerList) {
         result.place = endplace.toString()
         endplace++
     })
-    return orderpoints
+
+    console.log("<combined.js> max results " + combined_max_results)
+    var searchstring2 = "[?place.to_number(@) <= '" + combined_max_results + "']"
+    var reduced = jmespath.search(orderpoints, searchstring2);
+    return reduced
 }
 
 function getAgeGroupIdWithAge(event_sessions, event_number, agemin, agemax) {
@@ -63,4 +84,59 @@ function getAgeGroupIdWithAge(event_sessions, event_number, agemin, agemax) {
     }
 }
 
-module.exports = { addResultsToSwimerList, addPlaceToCombinedList, getAgeGroupIdWithAge }
+function getDefininitions(combindedData) {
+
+    try {
+        var searchstring = "[].{value: combinedid, label: name}"
+        var tmp = jmespath.search(combindedData, searchstring);
+        return tmp
+    } catch (err) {
+        console.log(err)
+        var newDefinition = [
+            { value: 1, label: 'Fehler' },
+            { value: 2, label: 'Fehler' }
+        ]
+        return newDefinition;
+    }
+}
+
+function convertToResult(combindedData) {
+    console.log('<combined> max_results>')
+
+    var eventDefinition = {
+        eventDefinition: {
+            name: combindedData[0].title,
+            eventNumber: '',
+            competition: combindedData[0].title
+        }
+    }
+
+    var swimmerdata = []
+
+    combindedData.map(data => {
+        var result = {
+            order: data.place,
+            place: data.place,
+            resultid: "",
+            firstname: data.firstname,
+            lastname: data.lastname,
+            birthdate: data.birthdate,
+            nation: data.nation,
+            athleteid: data.athleteid,
+            points: data.combinedpoints,
+            swimtime: data.combinedpoints,
+            name: data.clubname,
+            code: data.clubid
+        }
+        swimmerdata.push(result)
+        console.log(data.combinedpoints)
+    })
+
+    var swimmerResults = { swimmerResults: swimmerdata }
+    var reesultMessage = { ...eventDefinition, ...swimmerResults }
+
+    return reesultMessage
+}
+
+
+module.exports = { addResultsToSwimerList, addPlaceToCombinedList, getAgeGroupIdWithAge, getDefininitions, convertToResult }

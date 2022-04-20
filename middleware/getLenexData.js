@@ -1,4 +1,5 @@
 const { results, ageGroups, downloadList, combined, combineddefinition } = require("../services/getResultData");
+const { convertToResult } = require('../data/combined')
 
 var swimEvent = require('../data/swim_event')
 var mqtt_handler = require('../mqtt/mqtt_handler');
@@ -90,7 +91,25 @@ module.exports = function getLenexData(request, response, next) {
       .then(() => console.log('<mid:getenexData:show> send'))
       .catch(() => console.log('<mid:getenexData:show> error connect mqtt'));
     //console.log(mqttInternalClient.getStatus())
-    response.body = stringJson
+    response.body = reesultMessage
   }
+
+  if (lenexMode === 'showcombined') {
+    console.log('<mid:getLenexData:combined> id ' + combinedid);
+    var stringJson = convertToResult(combined(myEvent, combinedid))
+    //Todo
+    var typeAttribute = { 'type': 'result' }
+    var reesultMessage = { ...typeAttribute, ...stringJson }
+    mqttInternalClient.getStatus()
+      .then(() => {
+        console.log('<mid:getenexData:show> MQTT connected')
+        return mqttInternalClient.sendRawMessage(JSON.stringify(reesultMessage))
+      })
+      .then(() => console.log('<mid:getenexData:show> send'))
+      .catch(() => console.log('<mid:getenexData:show> error connect mqtt'));
+    //console.log(mqttInternalClient.getStatus())
+    response.body = reesultMessage
+  }
+
   next();
 }
