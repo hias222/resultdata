@@ -1,4 +1,4 @@
-const { results, ageGroups, downloadList, combined, combineddefinition } = require("../services/getResultData");
+const { results, ageGroups, downloadList, combined, combineddefinition, eventdefinition } = require("../services/getResultData");
 const { convertToResult } = require('../data/combined')
 
 var swimEvent = require('../data/swim_event')
@@ -75,6 +75,12 @@ module.exports = function getLenexData(request, response, next) {
   if (lenexMode === 'query') {
     console.log('<mid:getLenexData:query> event ' + event + ' agegroup ' + agegroup);
     var stringJson = results(myEvent, event, agegroup)
+    response.body = stringJson
+  }
+
+  if (lenexMode === 'eventdefinition') {
+    console.log('<mid:getLenexData:eventdefinition> event ');
+    var stringJson = eventdefinition(myEvent)
     response.body = stringJson
   }
 

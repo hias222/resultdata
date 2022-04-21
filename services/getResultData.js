@@ -74,4 +74,7 @@ module.exports.combineddefinition = function getCombineddefinition(myEvent) {
   return eventData;
 }
 
-
+module.exports.eventdefinition = function getEventdefinition(myEvent) {
+  var eventData = myEvent.getEventdefinition();
+  return eventData;
+}

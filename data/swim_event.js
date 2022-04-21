@@ -272,6 +272,19 @@ class swimevent {
         }
     }
 
+    getEventList(){
+        console.log("<swim_event> getEventList ")
+        try {
+            var searchstring = "[].{event: ATTR.number, gender: ATTR.gender, SWIMSTYLE: SWIMSTYLE[0].{stroke: ATTR.stroke, distance: ATTR.distance}}"
+            var tmp = jmespath.search(event_sessions, searchstring);
+            return tmp
+        } catch (err) {
+            console.log("<swim_event> eemptyevent")
+            console.log(err)
+            return null
+        }
+    }
+
     getActualSwimmer(lane, time, place) {
         var emptylane = "{ \"type\": \"lane\", \"lane\": \"" +
             lane + "\", \"event\": \"" +
@@ -441,8 +454,16 @@ class swimevent {
 
     }
 
+    getEventdefinition() {
+        console.log('<getEventdefinition> for result dropdown')
+        var eventlist = this.getEventList()
+        var attributsearch = "[].{value: event, label: join(' ', [event, gender.to_string(@), SWIMSTYLE.distance, SWIMSTYLE.stroke ])}"
+        var searcharray = jmespath.search(eventlist, attributsearch);
+        return searcharray;
+    }
+
     getCombineddefinition() {
-        console.log('<getCombineddefinition> ToDo')
+        console.log('<getCombineddefinition>')
         var definintions = getDefininitions(this.combined_data)
         return definintions;
     }
