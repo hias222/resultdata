@@ -51,6 +51,9 @@ function addPlaceToCombinedList(swimmerList) {
     var endplace = 1
     orderpoints.map(result => {
         result.place = endplace.toString()
+        if (result.data !== undefined) {
+            result.data.sort((a, b) => parseInt(a.event) - parseInt(b.event))
+        }
         endplace++
     })
 

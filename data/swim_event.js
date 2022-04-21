@@ -22,6 +22,9 @@ var event_clubs = null;
 
 var event_type = properties.get("main.event_type")
 var combined_definition = properties.get("main.combined_file")
+var combined_dsq_zero_points = properties.get("main.combined_dsq_zero_points")
+var show_max_results = properties.get("main.show_max_results") !== null ? properties.get("main.show_max_results") : 999
+
 
 var internalheadID = "1";
 var actual_heat = "1";
@@ -166,7 +169,7 @@ class swimevent {
             var resultattributsearch = "[].RESULTS[].RESULT[?ATTR.resultid == '" + resultid + "']"
             var resultarray = jmespath.search(tmp, resultattributsearch);
 
-            var resultattributsearch2 = "[].{points: ATTR.points, swimtime: ATTR.swimtime }"
+            var resultattributsearch2 = "[].{points: ATTR.points, swimtime: ATTR.swimtime, status: ATTR.status }"
             var searcharray = jmespath.search(resultarray, resultattributsearch2);
 
             var resultswimmersearch = "[].{firstname: ATTR.firstname,lastname: ATTR.lastname, birthdate: ATTR.birthdate, nation: ATTR.nation, athleteid: ATTR.athleteid }"
@@ -189,11 +192,26 @@ class swimevent {
     getResultDataList(resultids) {
         var swimmerResults = []
 
+        var usedsq = combined_dsq_zero_points !== null ? combined_dsq_zero_points : false
+
         resultids.map(result => {
             if (result.place !== '-1') {
                 var resultSwimmer = this.getResultID(result.resultid)
                 var resultplace = { ...result, ...resultSwimmer }
                 swimmerResults.push(resultplace)
+            } else {
+                var resultSwimmer = this.getResultID(result.resultid)
+                var resultplace = { ...result, ...resultSwimmer }
+                if (resultplace.status === 'DSQ') {
+                    if (usedsq) {
+                        console.log('<swim_event> getResultDataList DSQ ' + resultplace.lastname)
+                        resultplace.points = "0"
+                        resultplace.place = "999"
+                        resultplace.order = "999"
+                        resultplace.swimtime = "DSQ"
+                        swimmerResults.push(resultplace)
+                    }
+                }
             }
         })
 
@@ -272,7 +290,7 @@ class swimevent {
         }
     }
 
-    getEventList(){
+    getEventList() {
         console.log("<swim_event> getEventList ")
         try {
             var searchstring = "[].{event: ATTR.number, gender: ATTR.gender, SWIMSTYLE: SWIMSTYLE[0].{stroke: ATTR.stroke, distance: ATTR.distance}}"
@@ -404,21 +422,11 @@ class swimevent {
         //console.log(results)
 
         var swimmerResults = this.getResultDataList(results)
-
-        /*
-        var swimmerResults = []
-
-        results.map(result => {
-            if (result.place !== '-1') {
-                var resultSwimmer = this.getResultID(result.resultid)
-                var resultplace = { ...result, ...resultSwimmer }
-                swimmerResults.push(resultplace)
-            }
-        })
-        */
-
         var searchstring = "sort_by([*],&place.to_number(@))"
-        var orderbyplace = jmespath.search(swimmerResults, searchstring);
+        var orderbyplace1 = jmespath.search(swimmerResults, searchstring);
+        //////
+        var searchstring2 = "[?place.to_number(@) <= '" + show_max_results + "']"
+        var orderbyplace = jmespath.search(orderbyplace1, searchstring2);
 
         var competitionName = competion.competition !== undefined ? competion.competition : ''
         //console.log(eventName)
@@ -432,9 +440,7 @@ class swimevent {
             },
             swimmerResults: orderbyplace
         }
-
         return eventData
-
     }
 
     getDownloadList(eventnumber) {
@@ -482,6 +488,7 @@ class swimevent {
                     if (agegroupID !== undefined) {
                         var results = this.getResults(event.number, agegroupID)
                         var eventdetails = this.getEventName(event.number)
+                        // da wird -1 rausgenommen
                         var swimmerResults = this.getResultDataList(results)
                         swimmerList = addResultsToSwimerList(swimmerList, swimmerResults, event, eventdetails, combined_data);
                     } else {

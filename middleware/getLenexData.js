@@ -106,7 +106,6 @@ module.exports = function getLenexData(request, response, next) {
     var stringJson = convertToResult(combined(myEvent, combinedid), competion.competition)
     var typeAttribute = { 'type': 'result' }
     var reesultMessage = { ...typeAttribute, ...stringJson }
-    console.log(reesultMessage)
     mqttInternalClient.getStatus()
       .then(() => {
         console.log('<mid:getenexData:show> MQTT connected')
