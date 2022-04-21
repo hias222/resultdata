@@ -1,10 +1,10 @@
 [
     {
         "combinedid" : 1,
-        "name": "Freistil W",
-        "title": "Freistil",
+        "name": "Freistil W 2010",
+        "title": "Mehrkampf Freistil Jahrgang 2010",
         "agemin": "10",
-        "agemax": "11",
+        "agemax": "10",
         "events": [
             {
                 "number": "1",

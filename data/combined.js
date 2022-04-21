@@ -100,18 +100,19 @@ function getDefininitions(combindedData) {
     }
 }
 
-function convertToResult(combindedData) {
+function convertToResult(combindedData, competition) {
     console.log('<combined> max_results>')
 
     var eventDefinition = {
         eventDefinition: {
             name: combindedData[0].title,
             eventNumber: '',
-            competition: combindedData[0].title
+            competition: competition
         }
     }
 
     var swimmerdata = []
+
 
     combindedData.map(data => {
         var result = {
