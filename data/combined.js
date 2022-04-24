@@ -33,7 +33,7 @@ function addResultsToSwimerList(swimmerList, swimmerResults, event, eventdetails
                 'points': correctpoints,
                 'place': result.place,
                 'factor': factor,
-                'swimtime': getEntryTime(result.swimtime)
+                'swimtime': result.swimtime
             }]
         }
 
