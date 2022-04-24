@@ -1,5 +1,10 @@
 const jmespath = require('jmespath');
 
+const { getBirthYear } = require('../utilities/getBirthYear')
+const { getSwimStyle } = require('../utilities/getSwimStyles')
+
+const getEntryTime = require('../utilities/getEntryTime')
+
 var PropertyReader = require('properties-reader')
 require('dotenv').config();
 var propertyfile = __dirname + "/../resources/" + process.env.PROPERTY_FILE;
@@ -15,7 +20,7 @@ function addResultsToSwimerList(swimmerList, swimmerResults, event, eventdetails
             'athleteid': result.athleteid,
             'firstname': result.firstname,
             'lastname': result.lastname,
-            'birthdate': result.birthdate,
+            'birthdate': getBirthYear(result.birthdate),
             'clubname': result.name,
             'combined_name': combined_name.name,
             'title': combined_name.title,
@@ -24,11 +29,11 @@ function addResultsToSwimerList(swimmerList, swimmerResults, event, eventdetails
             'combinedpoints': correctpoints, 'data': [{
                 'event': event.number,
                 'distance': eventdetails.distance,
-                'swimstyle': eventdetails.swimstyle,
+                'swimstyle': getSwimStyle(eventdetails.swimstyle),
                 'points': correctpoints,
                 'place': result.place,
                 'factor': factor,
-                'swimtime': result.swimtime
+                'swimtime': getEntryTime(result.swimtime)
             }]
         }
 
@@ -77,8 +82,8 @@ function getAgeGroupIdWithAge(event_sessions, event_number, agemin, agemax) {
             return tmp3[0].ATTR.agegroupid
         } else {
             console.log('<combined> error on find agegroup id ' + event_number + ' from ' + agemin + ' to ' + agemax)
-            console.log(tmp2)
-            console.log(tmp3)
+            //console.log(tmp2)
+            //console.log(tmp3)
             return undefined;
         }
     } catch (err) {

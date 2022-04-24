@@ -5,7 +5,12 @@ const jmespath = require('jmespath');
 
 const { addResultsToSwimerList, addPlaceToCombinedList, getAgeGroupIdWithAge, getDefininitions } = require('./combined')
 
-var PropertyReader = require('properties-reader')
+var PropertyReader = require('properties-reader');
+const { getSwimStyle } = require('../utilities/getSwimStyles');
+const { getGender } = require('../utilities/getGender');
+const getEntryTime = require('../utilities/getEntryTime');
+const { getBirthYear } = require('../utilities/getBirthYear');
+
 require('dotenv').config();
 
 var event_debug = process.env.MQTT_EVENT_DEBUG === 'true' ? true : false;
@@ -176,6 +181,9 @@ class swimevent {
             var swimmerarray = jmespath.search(tmp, resultswimmersearch);
 
             var club = this.getSwimmerClub(swimmerarray[0].athleteid)
+
+            searcharray[0].swimtime = getEntryTime(searcharray[0].swimtime)
+            swimmerarray[0].birthdate = getBirthYear(swimmerarray[0].birthdate)
 
             var alltogether = { ...swimmerarray[0], ...searcharray[0], ...club[0] }
 
@@ -430,7 +438,7 @@ class swimevent {
 
         var competitionName = competion.competition !== undefined ? competion.competition : ''
         //console.log(eventName)
-        var style = eventName.distance + 'm ' + eventName.swimstyle + ' ' + eventName.gender + ' (' + event_type + ') '
+        var style = eventName.distance + 'm ' + getSwimStyle(eventName.swimstyle) + ' ' + getGender(eventName.gender)
 
         let eventData = {
             eventDefinition: {
@@ -463,6 +471,7 @@ class swimevent {
     getEventdefinition() {
         console.log('<getEventdefinition> for result dropdown')
         var eventlist = this.getEventList()
+        //var swimStyle = getSwimStyle(SWIMSTYLE.stroke)
         var attributsearch = "[].{value: event, label: join(' ', [event, gender.to_string(@), SWIMSTYLE.distance, SWIMSTYLE.stroke ])}"
         var searcharray = jmespath.search(eventlist, attributsearch);
         return searcharray;
@@ -498,11 +507,11 @@ class swimevent {
                 })
             }
             if (found_age) return addPlaceToCombinedList(swimmerList)
-            return { ...error_data, ...{ "agemin": combined_data.agemin, "agemax": combined_data.agemax } }
+            return [{ ...error_data, ...{ "agemin": combined_data.agemin, "agemax": combined_data.agemax } }]
         } catch (err) {
             console.log("<swim_events> nothing found getCombinedData !!!")
             console.log(err)
-            return new Object();
+            return [{ combinedid: combinedid }];
         }
     }
 }

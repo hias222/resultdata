@@ -3,7 +3,7 @@
         "combinedid" : 1,
         "name": "Freistil W 2010",
         "title": "Mehrkampf Freistil Jahrgang 2010",
-        "agemin": "10",
+        "agemin": "11",
         "agemax": "11",
         "events": [
             {
@@ -11,17 +11,12 @@
                 "factor": "1"
             },
             {
-                "number": "7",
-                "factor": "3"
+                "number": "15",
+                "factor": "1"
             },
             {
-                "number": "19"
-            },
-            {
-                "number": "13"
-            },
-            {
-                "number": "29"
+                "number": "9",
+                "factor": "1"
             }
         ]
     },
@@ -29,25 +24,22 @@
         "combinedid" : 2,
         "name": "Freistil M 2010",
         "title": "Mehrkampf Freistil Jahrgang 2010",
-        "agemin": "10",
-        "agemax": "11",
+        "agemin": "12",
+        "agemax": "12",
         "events": [
             {
-                "number": "8",
-                "factor": "3"
+                "number": "2",
+                "factor": "1"
             },
             {
-                "number": "2"
+                "number": "16",
+                "factor": "1"
             },
             {
-                "number": "20"
-            },
-            {
-                "number": "30"
-            },
-            {
-                "number": "14"
+                "number": "10",
+                "factor": "1"
             }
+            
         ]
     }
 
