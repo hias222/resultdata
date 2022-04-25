@@ -1,45 +1,28 @@
 [
     {
         "combinedid" : 1,
-        "name": "Freistil W 2010",
-        "title": "Mehrkampf Freistil Jahrgang 2010",
-        "agemin": "11",
-        "agemax": "11",
+        "name": "Freistil W 8",
+        "title": "Mehrkampf Freistil Jahrgang 8",
+        "agemin": "8",
+        "agemax": "8",
         "events": [
             {
                 "number": "1",
-                "factor": "1"
-            },
-            {
-                "number": "15",
-                "factor": "1"
-            },
-            {
-                "number": "9",
                 "factor": "1"
             }
         ]
     },
     {
         "combinedid" : 2,
-        "name": "Freistil M 2010",
-        "title": "Mehrkampf Freistil Jahrgang 2010",
-        "agemin": "12",
-        "agemax": "12",
+        "name": "Freistil M 8",
+        "title": "Mehrkampf Freistil Jahrgang 8",
+        "agemin": "8",
+        "agemax": "8",
         "events": [
             {
                 "number": "2",
                 "factor": "1"
-            },
-            {
-                "number": "16",
-                "factor": "1"
-            },
-            {
-                "number": "10",
-                "factor": "1"
-            }
-            
+            }            
         ]
     }
 

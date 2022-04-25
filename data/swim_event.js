@@ -436,7 +436,7 @@ class swimevent {
         var searchstring2 = "[?place.to_number(@) <= '" + show_max_results + "']"
         var orderbyplace = jmespath.search(orderbyplace1, searchstring2);
 
-        var competitionName = competion.competition !== undefined ? competion.competition : ''
+        var competitionName = competion.competition !== undefined ? competion.competition : '-'
         //console.log(eventName)
         var style = eventName.distance + 'm ' + getSwimStyle(eventName.swimstyle) + ' ' + getGender(eventName.gender)
 
