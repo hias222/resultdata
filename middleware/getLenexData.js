@@ -40,6 +40,7 @@ module.exports = function getLenexData(request, response, next) {
         })
         .then(() => {
           console.log('<mid:getLenexData:update> updated lenex');
+          process.exit(0)
         })
         .catch((error) => {
           console.log('<mid:getLenexData:update> error ' + lenexfile);

@@ -25,6 +25,8 @@ var event_swimmer = null;
 var event_results = null;
 var event_clubs = null;
 
+var xml_string = null;
+
 var event_type = properties.get("main.event_type")
 var combined_definition = properties.get("main.combined_file")
 var combined_dsq_zero_points = properties.get("main.combined_dsq_zero_points")
@@ -49,13 +51,14 @@ class swimevent {
         this.filename = filename
         this.success_load = false;
         try {
-            this.xml_string = fs.readFileSync(filename, "utf8");
+            xml_string = fs.readFileSync(filename, "utf8")
 
             this.readFile()
             this.success_load = true;
 
             var combined_file = __dirname + '/../resources/' + combined_definition
             this.combined_data = JSON.parse(fs.readFileSync(combined_file, "utf8"))
+
 
         } catch (Exception) {
             console.log(Exception)
@@ -64,35 +67,37 @@ class swimevent {
     }
 
     async updateFile(filename) {
+        console.log('update')
         return new Promise((resolve, reject) => {
-            this.filename = __dirname + '/../resources/' + filename
-            try {
-                const data = fs.readFileSync(this.filename, 'utf8')
-                console.log('<swim_event> read ' + filename)
-                this.xml_string = data;
-                this.readFile();
-            } catch (Exception) {
-                console.log(Exception)
-                reject(Exception)
-            }
+
             // update file name
             var lenex_file = properties.get("main.lenex_results")
             console.log("<swim_event> property old file " + lenex_file)
             properties.set("main.lenex_results", filename);
             properties.save(propertyfile)
-            lenex_file = properties.get("main.lenex_results")
-            console.log("<swim_event> property new file " + lenex_file)
-            resolve('success load')
+                .then(() => {
+                    lenex_file = properties.get("main.lenex_results")
+                    console.log("<swim_event> property new file " + lenex_file)
+                    resolve('success load')
+                })
+                .catch((Exception) => reject(Exception))
         })
     }
 
     readFile() {
         console.log("<swim_event> read " + this.filename)
         try {
-            parser.parseString(this.xml_string, function (error, result) {
+            parser.parseString(xml_string, function (error, result) {
                 if (error === null) {
                     event_all = result;
-                    event_swimmer = jmespath.search(result.LENEX.MEETS[0].MEET[0], "CLUBS[].CLUB[].ATHLETES[].ATHLETE[]")
+                    console.log(result)
+                    try {
+                        event_swimmer = jmespath.search(result.LENEX.MEETS[0].MEET[0], "CLUBS[].CLUB[].ATHLETES[].ATHLETE[]")
+                    } catch (Exception) {
+                        event_swimmer = []
+                        console.log(Exception)
+                    }
+
                     event_clubs = result.LENEX.MEETS[0].MEET[0].CLUBS[0].CLUB
                     event_heatid = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]");
                     event_sessions = jmespath.search(result.LENEX.MEETS[0].MEET[0].SESSIONS, "[].SESSION[].EVENTS[].EVENT[]")
