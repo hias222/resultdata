@@ -32,7 +32,7 @@ module.exports = function getLenexData(request, response, next) {
     if (request.query.lenexfile !== undefined) {
       var lenexfile = request.query.lenexfile;
       console.log('<mid:getLenexData:update> ' + lenexfile);
-
+      
       unzip.unzip(lenexfile)
         .then((fileName) => {
           console.log('<mid:getLenexData:update> extracted to ' + fileName);

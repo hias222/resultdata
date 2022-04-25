@@ -70,6 +70,19 @@ class swimevent {
         console.log('update')
         return new Promise((resolve, reject) => {
 
+            /*
+            this.filename = __dirname + '/../resources/' + filename
+            try {
+                const data = fs.readFileSync(this.filename, 'utf8')
+                console.log('<swim_event> read ' + filename)
+                xml_string = data;
+                this.readFile();
+            } catch (Exception) {
+                console.log(Exception)
+                reject(Exception)
+            }
+            */
+
             // update file name
             var lenex_file = properties.get("main.lenex_results")
             console.log("<swim_event> property old file " + lenex_file)
