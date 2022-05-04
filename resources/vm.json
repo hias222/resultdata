@@ -1,28 +1,44 @@
 [
     {
         "combinedid" : 1,
-        "name": "Freistil W 8",
-        "title": "Mehrkampf Freistil Jahrgang 8",
-        "agemin": "8",
-        "agemax": "8",
+        "name": "Mehrkampf W 4x50",
+        "title": "Mehrkampf Weiblich Freistil 4x50",
+        "agemin": "-1",
+        "agemax": "-1",
         "events": [
             {
-                "number": "1",
-                "factor": "1"
+                "number": "9"
+            },
+            {
+                "number": "11"
+            },
+            {
+                "number": "13"
+            },
+            {
+                "number": "15"
             }
         ]
     },
     {
         "combinedid" : 2,
-        "name": "Freistil M 8",
-        "title": "Mehrkampf Freistil Jahrgang 8",
-        "agemin": "8",
-        "agemax": "8",
+        "name": "Mehrkampf M 4x50",
+        "title": "Mehrkampf Männlich Freistil 4x50",
+        "agemin": "-1",
+        "agemax": "-1",
         "events": [
             {
-                "number": "2",
-                "factor": "1"
-            }            
+                "number": "10"
+            },
+            {
+                "number": "12"
+            },
+            {
+                "number": "14"
+            },
+            {
+                "number": "16"
+            }
         ]
     }
 
