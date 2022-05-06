@@ -14,6 +14,12 @@ function unzipFile(fileName, outputPath) {
             .pipe(unzipper.Extract({ path: outputPath }));
 
         stream.on('finish', () => {
+            try {
+                fs.unlinkSync(fullFileName);
+                console.log("File is deleted. " + fullFileName);
+            } catch (error) {
+                console.log(error);
+            }
             resolve(destfilename);
         });
 
