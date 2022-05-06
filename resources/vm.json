@@ -43,7 +43,7 @@
     },
     {
         "combinedid" : 3,
-        "name": "Mehrkampf W 4x50",
+        "name": "Mehrkampf W VM",
         "title": "Vereinsmeister Weiblich",
         "agemin": "-1",
         "agemax": "-1",
@@ -66,7 +66,7 @@
         ]
     },
     {
-        "combinedid" : 2,
+        "combinedid" : 4,
         "name": "Mehrkampf M VM ",
         "title": "Vereinsmeister Männlich",
         "agemin": "-1",
