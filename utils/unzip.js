@@ -5,11 +5,19 @@ var unzipper = require('unzipper')
 
 function unzipFile(fileName, outputPath) {
     return new Promise((resolve, reject) => {
-
-        
+       
         var destfilename = fileName.split('.').slice(0, -1).join('.') + ".lef"
         var fullFileName = __dirname + '/../resources/' + fileName
 
+        var fullDestFileName = __dirname + '/../resources/' + destfilename
+
+        try {
+            fs.unlinkSync(fullDestFileName);
+            console.log("File is deleted. " + fullDestFileName);
+        } catch (error) {
+            console.log(error);
+        }
+   
         let createdFile = fullFileName
         let stream = fs.createReadStream(createdFile)
             .pipe(unzipper.Extract({ path: outputPath }));
