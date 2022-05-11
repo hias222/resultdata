@@ -1,46 +1,202 @@
 [
     {
-        "combinedid" : 1,
-        "name": "Freistil W 2010",
-        "title": "Mehrkampf Freistil Jahrgang 2010",
-        "agemin": "11",
-        "agemax": "11",
-        "events": [
-            {
-                "number": "1",
-                "factor": "1"
-            },
-            {
-                "number": "15",
-                "factor": "1"
-            },
-            {
-                "number": "9",
-                "factor": "1"
-            }
-        ]
-    },
-    {
-        "combinedid" : 2,
-        "name": "Freistil M 2010",
-        "title": "Mehrkampf Freistil Jahrgang 2010",
+        "combinedid": 1,
+        "name": "SMK Brust W 2010",
+        "title": "Bayerischer Schwimm-Mehrkampf Brust 2010",
         "agemin": "12",
         "agemax": "12",
         "events": [
             {
-                "number": "2",
-                "factor": "1"
+                "number": "1"
             },
             {
-                "number": "16",
-                "factor": "1"
+                "number": "9"
             },
             {
-                "number": "10",
-                "factor": "1"
+                "number": "27"
+            },
+            {
+                "number": "47"
+            },
+            {
+                "number": "35",
+                "factor": "3"
             }
-            
+        ]
+    },
+    {
+        "combinedid": 2,
+        "name": "SMK Brust W 2011",
+        "title": "Bayerischer Schwimm-Mehrkampf Brust 2011",
+        "agemin": "11",
+        "agemax": "11",
+        "events": [
+            {
+                "number": "1"
+            },
+            {
+                "number": "9"
+            },
+            {
+                "number": "27"
+            },
+            {
+                "number": "47"
+            },
+            {
+                "number": "35",
+                "factor": "3"
+            }
+        ]
+    },
+    {
+        "combinedid": 3,
+        "name": "SMK Brust M 2010",
+        "title": "Bayerischer Schwimm-Mehrkampf Brust 2010",
+        "agemin": "12",
+        "agemax": "12",
+        "events": [
+            {
+                "number": "2"
+            },
+            {
+                "number": "10"
+            },
+            {
+                "number": "28"
+            },
+            {
+                "number": "48"
+            },
+            {
+                "number": "36",
+                "factor": "3"
+            }
+        ]
+    },
+    {
+        "combinedid": 4,
+        "name": "SMK Brust M 2011",
+        "title": "Bayerischer Schwimm-Mehrkampf Brust 2011",
+        "agemin": "11",
+        "agemax": "11",
+        "events": [
+            {
+                "number": "2"
+            },
+            {
+                "number": "10"
+            },
+            {
+                "number": "28"
+            },
+            {
+                "number": "48"
+            },
+            {
+                "number": "36",
+                "factor": "3"
+            }
+        ]
+    },
+    {
+        "combinedid": 5,
+        "name": "SMK Freistil W 2010",
+        "title": "Bayerischer Schwimm-Mehrkampf Freistil 2010",
+        "agemin": "12",
+        "agemax": "12",
+        "events": [
+            {
+                "number": "1"
+            },
+            {
+                "number": "9"
+            },
+            {
+                "number": "7"
+            },
+            {
+                "number": "25"
+            },
+            {
+                "number": "37",
+                "factor": "3"
+            }
+        ]
+    },
+    {
+        "combinedid": 6,
+        "name": "SMK Freistil W 2011",
+        "title": "Bayerischer Schwimm-Mehrkampf Freistil 2011",
+        "agemin": "11",
+        "agemax": "11",
+        "events": [
+            {
+                "number": "1"
+            },
+            {
+                "number": "9"
+            },
+            {
+                "number": "7"
+            },
+            {
+                "number": "25"
+            },
+            {
+                "number": "37",
+                "factor": "3"
+            }
+        ]
+    },
+    {
+        "combinedid": 7,
+        "name": "SMK Freistil M 2010",
+        "title": "Bayerischer Schwimm-Mehrkampf Freistil 2010",
+        "agemin": "12",
+        "agemax": "12",
+        "events": [
+            {
+                "number": "2"
+            },
+            {
+                "number": "10"
+            },
+            {
+                "number": "8"
+            },
+            {
+                "number": "26"
+            },
+            {
+                "number": "38",
+                "factor": "3"
+            }
+        ]
+    },
+    {
+        "combinedid": 8,
+        "name": "SMK Freistil W 2011",
+        "title": "Bayerischer Schwimm-Mehrkampf Freistil 2011",
+        "agemin": "11",
+        "agemax": "11",
+        "events": [
+            {
+                "number": "2"
+            },
+            {
+                "number": "10"
+            },
+            {
+                "number": "8"
+            },
+            {
+                "number": "26"
+            },
+            {
+                "number": "38",
+                "factor": "3"
+            }
         ]
     }
-
 ]
