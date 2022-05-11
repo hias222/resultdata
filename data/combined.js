@@ -120,8 +120,7 @@ function convertToResult(combindedData, competition) {
     }
 
     var swimmerdata = []
-
-
+    
     combindedData.map(data => {
         var result = {
             order: data.place,

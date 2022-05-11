@@ -6,7 +6,8 @@ var mqtt_handler = require('../mqtt/mqtt_handler');
 
 var unzip = require('../utils/unzip')
 
-const PropertyReader = require('properties-reader')
+const PropertyReader = require('properties-reader');
+const { clearPlaceAbove } = require("../data/reduceResults");
 
 var propertyfile = __dirname + "/../resources/" + process.env.PROPERTY_FILE;
 var properties = PropertyReader(propertyfile)
@@ -22,6 +23,7 @@ console.log(myEvent.getCompetitionName());
 module.exports = function getLenexData(request, response, next) {
 
   var lenexMode = request.query.mode !== undefined ? request.query.mode : 'query'
+  var place = request.query.place !== undefined ? request.query.place : 0
   var event = request.query.event !== undefined ? request.query.event : 0
   var combinedid = request.query.combinedid !== undefined ? request.query.combinedid : 1
   var agegroup = request.query.agegroup !== undefined ? request.query.agegroup : 0
@@ -32,7 +34,7 @@ module.exports = function getLenexData(request, response, next) {
     if (request.query.lenexfile !== undefined) {
       var lenexfile = request.query.lenexfile;
       console.log('<mid:getLenexData:update> ' + lenexfile);
-      
+
       unzip.unzip(lenexfile)
         .then((fileName) => {
           console.log('<mid:getLenexData:update> extracted to ' + fileName);
@@ -62,9 +64,10 @@ module.exports = function getLenexData(request, response, next) {
   }
 
   if (lenexMode === 'combined') {
-    console.log('<mid:getLenexData:combined> id ' + combinedid);
+    console.log('<mid:getLenexData:combined> id ' + combinedid + ' place ' + place);
     var stringJson = combined(myEvent, combinedid)
-    response.body = stringJson
+    var newJson = clearPlaceAbove(stringJson, place)
+    response.body = newJson
   }
 
   if (lenexMode === 'combineddefinition') {
@@ -104,7 +107,9 @@ module.exports = function getLenexData(request, response, next) {
   if (lenexMode === 'showcombined') {
     console.log('<mid:getLenexData:combined> id ' + combinedid);
     var competion = myEvent.getCompetitionName()
-    var stringJson = convertToResult(combined(myEvent, combinedid), competion.competition)
+    var stringJson = combined(myEvent, combinedid)
+    var newJson = clearPlaceAbove(stringJson, place)
+    var stringJson = convertToResult(newJson, competion.competition)
     var typeAttribute = { 'type': 'result' }
     var reesultMessage = { ...typeAttribute, ...stringJson }
     mqttInternalClient.getStatus()
