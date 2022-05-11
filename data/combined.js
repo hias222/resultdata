@@ -39,7 +39,7 @@ function addResultsToSwimerList(swimmerList, swimmerResults, event, eventdetails
 
         var item = swimmerList.find(x => x.athleteid == result.athleteid);
         if (item) {
-            var points = +result.points + +item.combinedpoints
+            var points = +correctpoints + +item.combinedpoints
             item.combinedpoints = points.toString();
             var newdata = [...swimmerdata.data, ...item.data]
             item.data = newdata;
