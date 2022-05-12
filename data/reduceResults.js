@@ -36,6 +36,7 @@ function clearPlaceAbove(resultJson, place) {
         }
 
         if (parseInt(result.place) < parseInt(place)) {
+            actualplace++
             newResult.push(getEmptyResult(result.place))
         } else {
             if (result.data.length > +numberresults - 1) {

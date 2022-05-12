@@ -66,7 +66,9 @@ module.exports = function getLenexData(request, response, next) {
   if (lenexMode === 'combined') {
     console.log('<mid:getLenexData:combined> id ' + combinedid + ' place ' + place);
     var stringJson = combined(myEvent, combinedid)
+    console.log(stringJson)
     var newJson = clearPlaceAbove(stringJson, place)
+    console.log(newJson)
     response.body = newJson
   }
 
