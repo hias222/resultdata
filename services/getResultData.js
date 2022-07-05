@@ -1,3 +1,5 @@
+const { clearPlaceStandard } = require("../data/reduceResults");
+
 let noresults = {
   eventDefinition:
     { eventNumber: '', name: '' },
@@ -19,9 +21,9 @@ let noresults = {
   ]
 }
 
-module.exports.results = function getResultData(myEvent, event, agegroup) {
+module.exports.results = function getResultData(myEvent, event, agegroup, place) {
 
-  console.log('<getResultData:results> Event: ' + event + ' Agegroup: ' + agegroup)
+  console.log('<getResultData:results> Event: ' + event + ' Agegroup: ' + agegroup + ' Place: ' + place)
 
   if (event === '0' || event === undefined || event === '') {
     var competitionName = myEvent.getCompetitionName();
@@ -31,8 +33,22 @@ module.exports.results = function getResultData(myEvent, event, agegroup) {
     return noresults
   } else {
     var eventData = myEvent.getResultData(event, agegroup);
+
+    if (parseInt(place) === 0 || place === undefined || place === '') {
+      var newJson = eventData
+    } else {
+      var swimmerdata = clearPlaceStandard(eventData, place)
+
+      var swimmerResults = { swimmerResults: swimmerdata }
+      var eventDefinition = { eventDefinition: eventData.eventDefinition }
+      var newJson = { ...eventDefinition, ...swimmerResults }
+    }
+
+
     console.log('<getResultData:results> Event: ' + event + ' Agegroup: ' + agegroup)
-    return eventData;
+
+
+    return newJson;
   }
 
 }
@@ -78,3 +94,63 @@ module.exports.eventdefinition = function getEventdefinition(myEvent) {
   var eventData = myEvent.getEventdefinition();
   return eventData;
 }
+
+
+
+/*
+{
+    "type": "result",
+    "eventDefinition": {
+        "name": "400m Freistil weiblich",
+        "eventNumber": "1",
+        "competition": "Nürnberger Maimeeting mit Bayerischem Schwimm-Mehrkampf"
+    },
+    "swimmerResults": [
+        {
+            "order": "1",
+            "place": "1",
+            "resultid": "3209",
+            "firstname": "Anna-Lena",
+            "lastname": "Karasek",
+            "birthdate": "2012",
+            "nation": "GER",
+            "athleteid": "3208",
+            "points": "222",
+            "swimtime": "06:30.00",
+            "status": null,
+            "name": "SG Mittelfranken",
+            "code": "6768"
+        },
+        {
+            "order": "2",
+            "place": "2",
+            "resultid": "2180",
+            "firstname": "Natalie",
+            "lastname": "Fenßlein",
+            "birthdate": "2012",
+            "nation": "GER",
+            "athleteid": "2179",
+            "points": "191",
+            "swimtime": "06:50.00",
+            "status": null,
+            "name": "SSG Coburg",
+            "code": "6695"
+        },
+        {
+            "order": "3",
+            "place": "2",
+            "resultid": "2194",
+            "firstname": "Mia",
+            "lastname": "Heider",
+            "birthdate": "2012",
+            "nation": "GER",
+            "athleteid": "2193",
+            "points": "191",
+            "swimtime": "06:50.00",
+            "status": null,
+            "name": "SSG Coburg",
+            "code": "6695"
+        }
+    ]
+}
+*/

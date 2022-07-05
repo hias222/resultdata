@@ -93,7 +93,7 @@ module.exports = function getLenexData(request, response, next) {
   if (lenexMode === 'show') {
     console.log('<mid:getLenexData:show> event ' + event + ' agegroup ' + agegroup);
     var typeAttribute = { 'type': 'result' }
-    var stringJson = results(myEvent, event, agegroup)
+    var stringJson = results(myEvent, event, agegroup, place)
     var reesultMessage = { ...typeAttribute, ...stringJson }
     mqttInternalClient.getStatus()
       .then(() => {

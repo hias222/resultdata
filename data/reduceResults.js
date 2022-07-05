@@ -54,4 +54,33 @@ function clearPlaceAbove(resultJson, place) {
     return newResult
 }
 
-module.exports = { clearPlaceAbove };
+function clearPlaceStandard(resultJson, place) {
+
+    console.log(resultJson)
+
+    var newResult = []
+    var numberresults = 0
+
+    var actualplace = 0
+
+    if (numberresults < resultJson.swimmerResults.length) {
+        numberresults = resultJson.swimmerResults.length
+        console.log('<reduceResults> number results ' + resultJson.swimmerResults.length + ' (place ' + place + ')')
+    }
+
+    resultJson.swimmerResults.map(result => {
+
+        console.log(result)
+
+        if (parseInt(result.place) < parseInt(place)) {
+            actualplace++
+            newResult.push(getEmptyResult(result.place))
+        } else {
+            newResult.push(result)
+        }
+
+    })
+    return newResult
+}
+
+module.exports = { clearPlaceAbove, clearPlaceStandard };
