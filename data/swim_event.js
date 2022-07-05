@@ -11,6 +11,7 @@ const { getGender } = require('../utilities/getGender');
 const getEntryTime = require('../utilities/getEntryTime');
 const { getBirthYear } = require('../utilities/getBirthYear');
 const { stringify } = require('querystring');
+const { getAgeYear } = require('../utilities/getAgeYear');
 
 require('dotenv').config();
 
@@ -439,6 +440,33 @@ class swimevent {
         return event_type;
     }
 
+    getAgeClassName(agemin,agemax){
+
+        if (agemin === '-1' && agemax === '-1'){
+            return 'offen'
+        }
+
+        if (agemin !== '-1' && agemax !== '-1'){
+
+            if (agemin === agemax){
+                return 'Jahrgang ' + getAgeYear(agemin)
+            } else {
+                return agemin + " - " + agemax 
+            }
+        }
+
+        if ( agemax === '-1') {
+            return  getAgeYear(agemin) + ' u.ä.'
+        }
+
+        if ( agemin === '-1') {
+            return  getAgeYear(agemax) + ' u.j.'
+        }
+
+
+
+    }
+
 
     getAgeGroupDetails(event, agegroup) {
 
@@ -453,7 +481,7 @@ class swimevent {
 
         if (tmp2[0] !== undefined){
             var agedata = tmp2[0].ATTR
-            var age = agedata.agemin + ' - ' + agedata.agemax
+            var age = this.getAgeClassName(agedata.agemin, agedata.agemax)
             return age
         } else {
             return ''
