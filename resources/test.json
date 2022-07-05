@@ -1,0 +1,647 @@
+[
+    {
+        "ATTR": {
+            "eventid": "1059",
+            "daytime": "14:00",
+            "gender": "F",
+            "number": "1",
+            "order": "3",
+            "round": "TIM",
+            "preveventid": "-1"
+        },
+        "SWIMSTYLE": [
+            {
+                "ATTR": {
+                    "distance": "400",
+                    "relaycount": "1",
+                    "stroke": "FREE"
+                }
+            }
+        ],
+        "FEE": [
+            {
+                "ATTR": {
+                    "value": "1000"
+                }
+            }
+        ],
+        "AGEGROUPS": [
+            {
+                "AGEGROUP": [
+                    {
+                        "ATTR": {
+                            "agegroupid": "1061",
+                            "agemax": "10",
+                            "agemin": "10"
+                        },
+                        "RANKINGS": [
+                            {
+                                "RANKING": [
+                                    {
+                                        "ATTR": {
+                                            "order": "1",
+                                            "place": "1",
+                                            "resultid": "3209"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "2",
+                                            "place": "2",
+                                            "resultid": "2180"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "3",
+                                            "place": "2",
+                                            "resultid": "2194"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "ATTR": {
+                            "agegroupid": "1062",
+                            "agemax": "11",
+                            "agemin": "11"
+                        },
+                        "RANKINGS": [
+                            {
+                                "RANKING": [
+                                    {
+                                        "ATTR": {
+                                            "order": "1",
+                                            "place": "1",
+                                            "resultid": "1852"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "2",
+                                            "place": "2",
+                                            "resultid": "1840"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "3",
+                                            "place": "3",
+                                            "resultid": "2442"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "4",
+                                            "place": "4",
+                                            "resultid": "3015"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "5",
+                                            "place": "4",
+                                            "resultid": "3280"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "6",
+                                            "place": "6",
+                                            "resultid": "3224"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "7",
+                                            "place": "7",
+                                            "resultid": "1366"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "8",
+                                            "place": "8",
+                                            "resultid": "1834"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "9",
+                                            "place": "9",
+                                            "resultid": "1984"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "10",
+                                            "place": "10",
+                                            "resultid": "1872"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "11",
+                                            "place": "11",
+                                            "resultid": "1959"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "12",
+                                            "place": "12",
+                                            "resultid": "2979"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "13",
+                                            "place": "13",
+                                            "resultid": "2763"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "14",
+                                            "place": "13",
+                                            "resultid": "2928"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "15",
+                                            "place": "15",
+                                            "resultid": "2940"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "16",
+                                            "place": "16",
+                                            "resultid": "2993"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "17",
+                                            "place": "17",
+                                            "resultid": "2952"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "18",
+                                            "place": "18",
+                                            "resultid": "1965"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "19",
+                                            "place": "19",
+                                            "resultid": "3259"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "20",
+                                            "place": "20",
+                                            "resultid": "2340"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "21",
+                                            "place": "21",
+                                            "resultid": "2281"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "22",
+                                            "place": "21",
+                                            "resultid": "2395"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "23",
+                                            "place": "21",
+                                            "resultid": "3124"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "24",
+                                            "place": "24",
+                                            "resultid": "2467"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "25",
+                                            "place": "25",
+                                            "resultid": "2450"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "26",
+                                            "place": "26",
+                                            "resultid": "2460"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "ATTR": {
+                            "agegroupid": "1064",
+                            "agemax": "12",
+                            "agemin": "12"
+                        },
+                        "RANKINGS": [
+                            {
+                                "RANKING": [
+                                    {
+                                        "ATTR": {
+                                            "order": "1",
+                                            "place": "1",
+                                            "resultid": "3296"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "2",
+                                            "place": "2",
+                                            "resultid": "1409"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "3",
+                                            "place": "3",
+                                            "resultid": "1721"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "4",
+                                            "place": "4",
+                                            "resultid": "1990"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "5",
+                                            "place": "5",
+                                            "resultid": "2007"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "6",
+                                            "place": "6",
+                                            "resultid": "2114"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "7",
+                                            "place": "7",
+                                            "resultid": "1669"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "8",
+                                            "place": "8",
+                                            "resultid": "3086"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "9",
+                                            "place": "9",
+                                            "resultid": "3078"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "10",
+                                            "place": "10",
+                                            "resultid": "3332"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "11",
+                                            "place": "11",
+                                            "resultid": "2144"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "12",
+                                            "place": "12",
+                                            "resultid": "1586"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "13",
+                                            "place": "13",
+                                            "resultid": "1348"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "14",
+                                            "place": "14",
+                                            "resultid": "2879"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "15",
+                                            "place": "15",
+                                            "resultid": "2188"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "16",
+                                            "place": "16",
+                                            "resultid": "2269"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "17",
+                                            "place": "17",
+                                            "resultid": "2302"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "18",
+                                            "place": "18",
+                                            "resultid": "2934"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "19",
+                                            "place": "19",
+                                            "resultid": "2914"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "20",
+                                            "place": "20",
+                                            "resultid": "2263"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "21",
+                                            "place": "21",
+                                            "resultid": "1555"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "22",
+                                            "place": "22",
+                                            "resultid": "2410"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "23",
+                                            "place": "23",
+                                            "resultid": "2243"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "ATTR": {
+                            "agegroupid": "1063",
+                            "agemax": "-1",
+                            "agemin": "13"
+                        },
+                        "RANKINGS": [
+                            {
+                                "RANKING": [
+                                    {
+                                        "ATTR": {
+                                            "order": "1",
+                                            "place": "1",
+                                            "resultid": "1786"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "2",
+                                            "place": "2",
+                                            "resultid": "3095"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "3",
+                                            "place": "3",
+                                            "resultid": "3370"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "4",
+                                            "place": "4",
+                                            "resultid": "1780"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "5",
+                                            "place": "5",
+                                            "resultid": "3244"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "6",
+                                            "place": "6",
+                                            "resultid": "3038"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "7",
+                                            "place": "7",
+                                            "resultid": "2077"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "8",
+                                            "place": "8",
+                                            "resultid": "2529"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "9",
+                                            "place": "9",
+                                            "resultid": "1341"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "10",
+                                            "place": "10",
+                                            "resultid": "3347"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "11",
+                                            "place": "11",
+                                            "resultid": "1733"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "12",
+                                            "place": "12",
+                                            "resultid": "1360"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "13",
+                                            "place": "13",
+                                            "resultid": "1858"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "14",
+                                            "place": "14",
+                                            "resultid": "2308"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "15",
+                                            "place": "15",
+                                            "resultid": "2379"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "16",
+                                            "place": "16",
+                                            "resultid": "2128"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "17",
+                                            "place": "17",
+                                            "resultid": "2674"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "18",
+                                            "place": "18",
+                                            "resultid": "1354"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "19",
+                                            "place": "19",
+                                            "resultid": "1386"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "20",
+                                            "place": "20",
+                                            "resultid": "1334"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "21",
+                                            "place": "21",
+                                            "resultid": "1570"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "22",
+                                            "place": "22",
+                                            "resultid": "1484"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "23",
+                                            "place": "23",
+                                            "resultid": "2389"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "24",
+                                            "place": "24",
+                                            "resultid": "1490"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "25",
+                                            "place": "25",
+                                            "resultid": "1470"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "26",
+                                            "place": "26",
+                                            "resultid": "1596"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "27",
+                                            "place": "27",
+                                            "resultid": "1430"
+                                        }
+                                    },
+                                    {
+                                        "ATTR": {
+                                            "order": "28",
+                                            "place": "28",
+                                            "resultid": "2618"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

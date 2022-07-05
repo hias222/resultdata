@@ -10,6 +10,7 @@ const { getSwimStyle } = require('../utilities/getSwimStyles');
 const { getGender } = require('../utilities/getGender');
 const getEntryTime = require('../utilities/getEntryTime');
 const { getBirthYear } = require('../utilities/getBirthYear');
+const { stringify } = require('querystring');
 
 require('dotenv').config();
 
@@ -438,6 +439,20 @@ class swimevent {
         return event_type;
     }
 
+
+    getAgeGroupDetails(event, agegroup) {
+        var searchstring = "[?ATTR.number == '" + event + "']"
+        var tmp = jmespath.search(event_sessions, searchstring);
+
+        var searchstring = "[?AGEGROUPS[?AGEGROUP[?ATTR.agegroupid == '" + agegroup + "' ]]]"
+        var tmp2 = jmespath.search(tmp, searchstring);
+        var agedata = tmp2[0].AGEGROUPS[0].AGEGROUP[0].ATTR
+        
+        var age = agedata.agemin + ' - ' + agedata.agemax
+
+        return age
+    }
+
     getResultData(event, agegroup) {
 
         console.log('<swim_event:getEventData> Event: ' + event + ' Agegroup: ' + agegroup)
@@ -457,12 +472,14 @@ class swimevent {
         var competitionName = competion.competition !== undefined ? competion.competition : '-'
         //console.log(eventName)
         var style = eventName.distance + 'm ' + getSwimStyle(eventName.swimstyle) + ' ' + getGender(eventName.gender)
+        var agedata = this.getAgeGroupDetails(event, agegroup)
 
         let eventData = {
             eventDefinition: {
                 name: style,
                 eventNumber: event,
-                competition: competitionName
+                competition: competitionName,
+                age: agedata
             },
             swimmerResults: orderbyplace
         }

@@ -80,8 +80,6 @@ function clearPlaceAbove(resultJson, place) {
 
 function clearPlaceStandard(resultJson, place) {
 
-    console.log(resultJson)
-
     var newResult = []
     var numberresults = 0
 
@@ -93,8 +91,6 @@ function clearPlaceStandard(resultJson, place) {
     }
 
     resultJson.swimmerResults.map(result => {
-
-        console.log(result)
 
         if (parseInt(result.place) < parseInt(place)) {
             actualplace++
