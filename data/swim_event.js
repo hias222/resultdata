@@ -451,7 +451,7 @@ class swimevent {
             if (agemin === agemax){
                 return 'Jahrgang ' + getAgeYear(agemin)
             } else {
-                return getAgeYear(agemin) + " - " + getAgeYear(agemax) 
+                return getAgeYear(agemax) + " - " + getAgeYear(agemin) 
             }
         }
 
