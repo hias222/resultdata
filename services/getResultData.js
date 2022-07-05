@@ -38,7 +38,6 @@ module.exports.results = function getResultData(myEvent, event, agegroup, place)
       var newJson = eventData
     } else {
       var swimmerdata = clearPlaceStandard(eventData, place)
-
       var swimmerResults = { swimmerResults: swimmerdata }
       var eventDefinition = { eventDefinition: eventData.eventDefinition }
       var newJson = { ...eventDefinition, ...swimmerResults }

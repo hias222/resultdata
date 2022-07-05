@@ -20,6 +20,30 @@ function getEmptyResult(place) {
     return emptyResult
 }
 
+function getEmptyStandardResult(place) {
+
+    var emptyResult = {
+        athleteid: '',
+        firstname: '',
+        lastname: '',
+        birthdate: '',
+        clubname: '',
+        nation: '',
+        points: '',
+        code: '',
+        resultid: '',
+        status: null,
+        name: '',
+        swimtime: '',
+        data: [
+        ],
+        place: place,
+        order: place
+    }
+
+    return emptyResult
+}
+
 
 function clearPlaceAbove(resultJson, place) {
 
@@ -74,7 +98,7 @@ function clearPlaceStandard(resultJson, place) {
 
         if (parseInt(result.place) < parseInt(place)) {
             actualplace++
-            newResult.push(getEmptyResult(result.place))
+            newResult.push(getEmptyStandardResult(result.place))
         } else {
             newResult.push(result)
         }
