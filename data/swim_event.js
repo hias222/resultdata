@@ -441,16 +441,24 @@ class swimevent {
 
 
     getAgeGroupDetails(event, agegroup) {
+
+        console.log( 'event: ' + event + ' agegroup ' + agegroup)
+
         var searchstring = "[?ATTR.number == '" + event + "']"
-        var tmp = jmespath.search(event_sessions, searchstring);
+        var tmp1 = jmespath.search(event_sessions, searchstring);
 
-        var searchstring = "[?AGEGROUPS[?AGEGROUP[?ATTR.agegroupid == '" + agegroup + "' ]]]"
-        var tmp2 = jmespath.search(tmp, searchstring);
-        var agedata = tmp2[0].AGEGROUPS[0].AGEGROUP[0].ATTR
-        
-        var age = agedata.agemin + ' - ' + agedata.agemax
+        var allagegroups = tmp1[0].AGEGROUPS[0].AGEGROUP
+        var searchstring2 = "[?ATTR.agegroupid == '" + agegroup + "' ]"
+        var tmp2 = jmespath.search(allagegroups, searchstring2);
 
-        return age
+        if (tmp2[0] !== undefined){
+            var agedata = tmp2[0].ATTR
+            var age = agedata.agemin + ' - ' + agedata.agemax
+            return age
+        } else {
+            return ''
+        }
+       
     }
 
     getResultData(event, agegroup) {
