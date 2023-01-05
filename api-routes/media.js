@@ -25,7 +25,7 @@ module.exports = function upload(req, res) {
 
   form.once("end", (name, file) => {
     console.log(
-      "<api-routes/media.js> Upload Process finished " + file.originalFilename
+      "<api-routes/media.js> Upload Process finished "
     );
   });
 };
