@@ -11,7 +11,7 @@ module.exports = function upload(req, res) {
   form.parse(req);
 
   form.on("fileBegin", function (name, file) {
-    file.filepath = process.env.WEB_LOCAL_FILE_PATH + '/' + file.originalFilename;
+    file.filepath = process.env.WEB_MEDIA_PATH + '/' + file.originalFilename;
     console.log('store to ' + file.filepath)
     //file.filepath = __dirname + "/../resources/" + file.originalFilename;
     originalUploadFilename = file.originalFilename;
@@ -25,7 +25,7 @@ module.exports = function upload(req, res) {
 
   form.once("end", (name, file) => {
     console.log(
-      "<api-routes/media.js> Upload Process finished " + name + " - " + file
+      "<api-routes/media.js> Upload Process finished " + file.originalFilename
     );
   });
 };
