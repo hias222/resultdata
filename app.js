@@ -9,6 +9,8 @@ var health = require('./api-routes/health');
 var loggerMiddleware = require('./middleware/loggerMiddleware')
 var getLenexData = require('./middleware/getLenexData')
 
+var getMedia = require('./middleware/getMedia')
+
 const getevent = require("./api-routes/getevent");
 
 require('dotenv').config();
@@ -22,6 +24,7 @@ app.options('*', cors());
 
 router.get('/', health);
 router.get('/getevent', getLenexData, getevent)
+router.get('/getmedia', getMedia, getevent)
 router.post("/upload", upload)
 router.post("/media", media)
 
