@@ -12,6 +12,7 @@ module.exports = function upload(req, res) {
 
   form.on("fileBegin", function (name, file) {
     file.filepath = process.env.WEB_LOCAL_FILE_PATH + '/' + file.originalFilename;
+    console.log('store to ' + file.filepath)
     //file.filepath = __dirname + "/../resources/" + file.originalFilename;
     originalUploadFilename = file.originalFilename;
   });
