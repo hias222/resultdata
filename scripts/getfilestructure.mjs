@@ -74,6 +74,8 @@ function add_common_data(data, common_tree) {
 
 function get_file_data(filepath, wsClubServer, exportFileName) {
 
+    console.log("download file in " + exportFileName)
+
     var wsClubURL = "http://" + wsClubServer + "/resultdata/getevent?mode=downloadlist"
 
     console.log("Query " + wsClubURL)
