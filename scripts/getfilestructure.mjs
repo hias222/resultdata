@@ -19,7 +19,7 @@ function add_entries_data(data, entries_tree, entries_base) {
             var tmp = jmespath.search(entries_tree, searchstring);
             if (tmp === 1) {
                 console.log('Entry ' + result.name + ' -> entries/' + entriesname)
-                var newFile = { 'entriesfile': entries_base + '/' + entriesname }
+                var newFile = { 'entriesfile': entries_base + '/entries/' + entriesname }
                 var newclub = { ...result, ...newFile }
                 club_data.push(newclub)
             } else {
@@ -41,7 +41,7 @@ function add_certs_data(data, certs_tree, certs_base) {
             var tmp = jmespath.search(certs_tree, searchstring);
             if (tmp === 1) {
                 console.log('Certs ' + result.name + ' -> certificates/' + certsname)
-                var newFile = { 'certsfile': certs_base + '/' + certsname }
+                var newFile = { 'certsfile': certs_base + '/certificates/' + certsname }
                 var newclub = { ...result, ...newFile }
                 club_data.push(newclub)
             } else {
@@ -62,7 +62,7 @@ function add_common_data(data, common_tree, common_base) {
             console.log('Common ' + result.name)
             var newFile = {
                 'name': result.name,
-                'link': common_base + '/' + result.name
+                'link': common_base + '/common/' + result.name
             }
             common_data.push(newFile)
         })
