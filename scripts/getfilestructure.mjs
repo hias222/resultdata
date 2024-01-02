@@ -8,7 +8,7 @@ const wsClubURL = "http://ubuntu.fritz.box/resultdata/getevent?mode=downloadlist
 //const filteredTree = dirTree("/some/path", { extensions: /\.txt/ });
 // http://ubuntu.fritz.box/resultdata/getevent?mode=downloadlist
 
-function add_entries_data(data, entries_tree) {
+function add_entries_data(data, entries_tree, entries_base) {
 
     return new Promise(function (resolve) {
         var club_data = []
@@ -19,7 +19,7 @@ function add_entries_data(data, entries_tree) {
             var tmp = jmespath.search(entries_tree, searchstring);
             if (tmp === 1) {
                 console.log('Entry ' + result.name + ' -> entries/' + entriesname)
-                var newFile = { 'entriesfile': '../entries/' + entriesname }
+                var newFile = { 'entriesfile': entries_base + '/' + entriesname }
                 var newclub = { ...result, ...newFile }
                 club_data.push(newclub)
             } else {
@@ -30,7 +30,7 @@ function add_entries_data(data, entries_tree) {
     })
 }
 
-function add_certs_data(data, certs_tree) {
+function add_certs_data(data, certs_tree, certs_base) {
 
     return new Promise(function (resolve) {
         var club_data = []
@@ -41,7 +41,7 @@ function add_certs_data(data, certs_tree) {
             var tmp = jmespath.search(certs_tree, searchstring);
             if (tmp === 1) {
                 console.log('Certs ' + result.name + ' -> certificates/' + certsname)
-                var newFile = { 'certsfile': '../certificates/' + certsname }
+                var newFile = { 'certsfile': certs_base + '/' + certsname }
                 var newclub = { ...result, ...newFile }
                 club_data.push(newclub)
             } else {
@@ -53,7 +53,7 @@ function add_certs_data(data, certs_tree) {
 
 }
 
-function add_common_data(data, common_tree) {
+function add_common_data(data, common_tree, common_base) {
     return new Promise(function (resolve) {
 
         var common_data = []
@@ -62,7 +62,7 @@ function add_common_data(data, common_tree) {
             console.log('Common ' + result.name)
             var newFile = {
                 'name': result.name,
-                'link': '../common/' + result.name
+                'link': common_base + '/' + result.name
             }
             common_data.push(newFile)
         })
@@ -72,7 +72,7 @@ function add_common_data(data, common_tree) {
     })
 }
 
-function get_file_data(filepath, wsClubServer, exportFileName) {
+function get_file_data(filepath, wsClubServer, exportFileName, downloadBasePath) {
 
     console.log("download file in " + exportFileName)
 
@@ -104,9 +104,9 @@ function get_file_data(filepath, wsClubServer, exportFileName) {
             return fetch(wsClubURL)
         })
         .then(response => response.json())
-        .then(data => add_entries_data(data, entries_tree))
-        .then(data => add_certs_data(data, certs_tree))
-        .then(clubdata => add_common_data(clubdata, common_tree))
+        .then(data => add_entries_data(data, entries_tree, downloadBasePath))
+        .then(data => add_certs_data(data, certs_tree, downloadBasePath))
+        .then(clubdata => add_common_data(clubdata, common_tree, downloadBasePath))
         .then((commondata) => fs.promises.writeFile(exportFileName, JSON.stringify(commondata)))
         .then(() => console.log('export file: ' + exportFileName))
         .catch((error) => console.log(error))

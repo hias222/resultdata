@@ -9,6 +9,8 @@ if (process.argv.length === 2) {
 const shortMeetingName= process.argv[2]
 dotenv.config()
 
+const downloadBasePath = "splashdata/" + shortMeetingName
+
 // Installs
 // npm install directory-tree
 // npm i node-fetch
@@ -35,4 +37,4 @@ console.info('Server ' + wsClubServer)
 console.info('exportFilename ' + exportFileName)
 console.info('')
 
-get_file_data(filepath, wsClubServer, exportFileName)
+get_file_data(filepath, wsClubServer, exportFileName, downloadBasePath)
