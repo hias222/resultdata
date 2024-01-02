@@ -35,6 +35,7 @@ const exportFileName = process.env.DEST_EXPORT_FILE_NAME + '/' + shortMeetingNam
 console.info('using ' + filepath)
 console.info('Server ' + wsClubServer)
 console.info('exportFilename ' + exportFileName)
+console.info('donload base path ' + downloadBasePath)
 console.info('')
 
 get_file_data(filepath, wsClubServer, exportFileName, downloadBasePath)
