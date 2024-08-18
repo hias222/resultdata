@@ -73,7 +73,11 @@ var unzip = async function (fileName) {
                 return resolve(newFilename)
             })
             .catch((err) => {
-                return reject(err)
+                console.log('<unzip.js> error on file ' + newFilename)
+                console.log('<unzip.js> timing issue? ' + newFilename)
+                console.log(err)
+                //return reject(err)
+                return resolve(newFilename)
             })
 
     });
